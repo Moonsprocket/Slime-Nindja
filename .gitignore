@@ -1,0 +1,30 @@
+# Unity: всё, что редактор создаёт сам
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+
+# Проектные файлы IDE пересоздаются редактором
+/.vs/
+/.vscode/
+/.idea/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.pidb
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Служебное
+.DS_Store
+Thumbs.db
+/.plastic/
+
+

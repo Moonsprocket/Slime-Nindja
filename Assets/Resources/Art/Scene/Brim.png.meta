@@ -1,0 +1,3294 @@
+fileFormatVersion: 2
+guid: a05053824ad958e48abddec45b91f8e9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5093959187524460646
+    second: Brim_0
+  - first:
+      213: -1030002561729272581
+    second: Brim_1
+  - first:
+      213: -5608459665418964798
+    second: Brim_2
+  - first:
+      213: -430620048656901935
+    second: Brim_3
+  - first:
+      213: 2664067592013598033
+    second: Brim_4
+  - first:
+      213: 4267685385371723191
+    second: Brim_5
+  - first:
+      213: 3675829976515408009
+    second: Brim_6
+  - first:
+      213: -5538310842721021982
+    second: Brim_7
+  - first:
+      213: -2887588143684005232
+    second: Brim_8
+  - first:
+      213: 7302695056637066282
+    second: Brim_9
+  - first:
+      213: 2805515252054590866
+    second: Brim_10
+  - first:
+      213: -2038554939055531125
+    second: Brim_11
+  - first:
+      213: -7530827005136485521
+    second: Brim_12
+  - first:
+      213: -3476592197373969547
+    second: Brim_13
+  - first:
+      213: -4490369267031737925
+    second: Brim_14
+  - first:
+      213: 6327858190658764639
+    second: Brim_15
+  - first:
+      213: -1370375072448256671
+    second: Brim_16
+  - first:
+      213: 7951473921923406266
+    second: Brim_17
+  - first:
+      213: 5093187634322498581
+    second: Brim_18
+  - first:
+      213: -6496394778478147415
+    second: Brim_19
+  - first:
+      213: 4263244023297995583
+    second: Brim_20
+  - first:
+      213: 6272725757076866057
+    second: Brim_21
+  - first:
+      213: 3960070639013046883
+    second: Brim_22
+  - first:
+      213: -209795315633115784
+    second: Brim_23
+  - first:
+      213: 4731672934961981639
+    second: Brim_24
+  - first:
+      213: 8452831634768107137
+    second: Brim_25
+  - first:
+      213: 2224602997584946328
+    second: Brim_26
+  - first:
+      213: 2001267844265031151
+    second: Brim_27
+  - first:
+      213: 3812028378545676366
+    second: Brim_28
+  - first:
+      213: -1032654778522598299
+    second: Brim_29
+  - first:
+      213: -2406393101760947868
+    second: Brim_30
+  - first:
+      213: -7642637382175381922
+    second: Brim_31
+  - first:
+      213: -2770845603209598416
+    second: Brim_32
+  - first:
+      213: -4109188981119577992
+    second: Brim_33
+  - first:
+      213: -691307438690594744
+    second: Brim_34
+  - first:
+      213: -543513204720321036
+    second: Brim_35
+  - first:
+      213: 6361754860616364828
+    second: Brim_36
+  - first:
+      213: 360646197939403900
+    second: Brim_37
+  - first:
+      213: -4799293858915670309
+    second: Brim_38
+  - first:
+      213: 1745256813908701016
+    second: Brim_39
+  - first:
+      213: 5106736748368564810
+    second: Brim_40
+  - first:
+      213: -1943604081362350492
+    second: Brim_41
+  - first:
+      213: -8101178379697015787
+    second: Brim_42
+  - first:
+      213: -5105783915537862999
+    second: Brim_43
+  - first:
+      213: -4034177165337595845
+    second: Brim_44
+  - first:
+      213: -7724020576937979330
+    second: Brim_45
+  - first:
+      213: 8326961189493089287
+    second: Brim_46
+  - first:
+      213: 3991432472607409272
+    second: Brim_47
+  - first:
+      213: -765294747728595495
+    second: Brim_48
+  - first:
+      213: 7637595854561060214
+    second: Brim_49
+  - first:
+      213: -3636445160727411891
+    second: Brim_50
+  - first:
+      213: 7526550152813388722
+    second: Brim_51
+  - first:
+      213: -8429154091460509379
+    second: Brim_52
+  - first:
+      213: -4809213304969477926
+    second: Brim_53
+  - first:
+      213: 2995627242541350128
+    second: Brim_54
+  - first:
+      213: -5077746456929800938
+    second: Brim_55
+  - first:
+      213: 5597460338205393891
+    second: Brim_56
+  - first:
+      213: -8551850853109748093
+    second: Brim_57
+  - first:
+      213: -1582777044691496920
+    second: Brim_58
+  - first:
+      213: 5444506961983042338
+    second: Brim_59
+  - first:
+      213: -3721522472403722843
+    second: Brim_60
+  - first:
+      213: -4909907674865718810
+    second: Brim_61
+  - first:
+      213: -3286080467804530825
+    second: Brim_62
+  - first:
+      213: 9104132167481429514
+    second: Brim_63
+  - first:
+      213: 3653458042314627833
+    second: Brim_64
+  - first:
+      213: 4714279716932456320
+    second: Brim_65
+  - first:
+      213: -3525479243367908872
+    second: Brim_66
+  - first:
+      213: -1053312169617804840
+    second: Brim_67
+  - first:
+      213: -5331959526680074853
+    second: Brim_68
+  - first:
+      213: -5599345683088474068
+    second: Brim_69
+  - first:
+      213: 5927716480572486520
+    second: Brim_70
+  - first:
+      213: 8930887237020486929
+    second: Brim_71
+  - first:
+      213: -4332554720403687183
+    second: Brim_72
+  - first:
+      213: -7123417814130962911
+    second: Brim_73
+  - first:
+      213: 8827278488306134895
+    second: Brim_74
+  - first:
+      213: 1134897065166847824
+    second: Brim_75
+  - first:
+      213: 4457315177349718179
+    second: Brim_76
+  - first:
+      213: 6894769876005366378
+    second: Brim_77
+  - first:
+      213: -1519603645274871326
+    second: Brim_78
+  - first:
+      213: -2701047535537728083
+    second: Brim_79
+  - first:
+      213: -8711682547850697768
+    second: Brim_80
+  - first:
+      213: -2238565773647630305
+    second: Brim_81
+  - first:
+      213: 2283899610908865254
+    second: Brim_82
+  - first:
+      213: 7382210914865039569
+    second: Brim_83
+  - first:
+      213: 709090483779888742
+    second: Brim_84
+  - first:
+      213: 674382059865297295
+    second: Brim_85
+  - first:
+      213: -5426509333907636699
+    second: Brim_86
+  - first:
+      213: -8476669398255000421
+    second: Brim_87
+  - first:
+      213: 8393065541715189197
+    second: Brim_88
+  - first:
+      213: -1022323066742390651
+    second: Brim_89
+  - first:
+      213: -5776310496474385104
+    second: Brim_90
+  - first:
+      213: 5514931572121084879
+    second: Brim_91
+  - first:
+      213: 6567369667519137463
+    second: Brim_92
+  - first:
+      213: -6250333026166117767
+    second: Brim_93
+  - first:
+      213: -1623135928839294454
+    second: Brim_94
+  - first:
+      213: 8758685777856038206
+    second: Brim_95
+  - first:
+      213: 5240480988039108959
+    second: Brim_96
+  - first:
+      213: -3313103149870263901
+    second: Brim_97
+  - first:
+      213: 1683272256122478991
+    second: Brim_98
+  - first:
+      213: -425918731459958511
+    second: Brim_99
+  - first:
+      213: -8825151698076464017
+    second: Brim_100
+  - first:
+      213: -1769101368877071818
+    second: Brim_101
+  - first:
+      213: 3086820396593272830
+    second: Brim_102
+  - first:
+      213: -2642611034604066055
+    second: Brim_103
+  - first:
+      213: 8032396568282369802
+    second: Brim_104
+  - first:
+      213: -1629024844505263841
+    second: Brim_105
+  - first:
+      213: 2425589843585371371
+    second: Brim_106
+  - first:
+      213: -5564225724427734320
+    second: Brim_107
+  - first:
+      213: 8796726285910670326
+    second: Brim_108
+  - first:
+      213: -2226975982252654026
+    second: Brim_109
+  - first:
+      213: -975601974948661702
+    second: Brim_110
+  - first:
+      213: -5457658613983139589
+    second: Brim_111
+  - first:
+      213: 7674756244943726534
+    second: Brim_112
+  - first:
+      213: 947950396015661493
+    second: Brim_113
+  - first:
+      213: -6302351501838399527
+    second: Brim_114
+  - first:
+      213: -8183783533027290308
+    second: Brim_115
+  - first:
+      213: 3998864576923396515
+    second: Brim_116
+  - first:
+      213: -8042990549606791721
+    second: Brim_117
+  - first:
+      213: -6921215545857568103
+    second: Brim_118
+  - first:
+      213: 2434445899847076307
+    second: Brim_119
+  - first:
+      213: -3974194573474938254
+    second: Brim_120
+  - first:
+      213: 9036885253026214882
+    second: Brim_121
+  - first:
+      213: -1487879145664419826
+    second: Brim_122
+  - first:
+      213: -3162953555232260935
+    second: Brim_123
+  - first:
+      213: -7486557909404950446
+    second: Brim_124
+  - first:
+      213: -7436555851107494166
+    second: Brim_125
+  - first:
+      213: 5920054072219592435
+    second: Brim_126
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Brim_0
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 225
+        width: 1068
+        height: 741
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 660abb064e061b640800000000000000
+      internalID: 5093959187524460646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_1
+      rect:
+        serializedVersion: 2
+        x: 1191
+        y: 595
+        width: 573
+        height: 285
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf462669022b4b1f0800000000000000
+      internalID: -1030002561729272581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 334
+        width: 72
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c0b89136afba22b0800000000000000
+      internalID: -5608459665418964798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_3
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 353
+        width: 22
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d8d4a6e851260af0800000000000000
+      internalID: -430620048656901935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_4
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 364
+        width: 18
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15dc99f2c5ba8f420800000000000000
+      internalID: 2664067592013598033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_5
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 303
+        width: 50
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b525303f3dd93b30800000000000000
+      internalID: 4267685385371723191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_6
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 353
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 980fee463eb230330800000000000000
+      internalID: 3675829976515408009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_7
+      rect:
+        serializedVersion: 2
+        x: 1113
+        y: 332
+        width: 19
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ef4bebb1a7f323b0800000000000000
+      internalID: -5538310842721021982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_8
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 348
+        width: 29
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 092d516e1e93de7d0800000000000000
+      internalID: -2887588143684005232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_9
+      rect:
+        serializedVersion: 2
+        x: 1371
+        y: 341
+        width: 104
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2c7ad17672685560800000000000000
+      internalID: 7302695056637066282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_10
+      rect:
+        serializedVersion: 2
+        x: 1472
+        y: 303
+        width: 159
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29587aae1413fe620800000000000000
+      internalID: 2805515252054590866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_11
+      rect:
+        serializedVersion: 2
+        x: 1669
+        y: 353
+        width: 40
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8b1a7a651995b3e0800000000000000
+      internalID: -2038554939055531125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_12
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 353
+        width: 10
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f63cbe52db02d7790800000000000000
+      internalID: -7530827005136485521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_13
+      rect:
+        serializedVersion: 2
+        x: 1731
+        y: 325
+        width: 54
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57b31a6f0d9a0cfc0800000000000000
+      internalID: -3476592197373969547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_14
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 286
+        width: 110
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb9fd3051f00fa1c0800000000000000
+      internalID: -4490369267031737925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_15
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 353
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5ff24b7f7111d750800000000000000
+      internalID: 6327858190658764639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_16
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 341
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 165eba5d1237bfce0800000000000000
+      internalID: -1370375072448256671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_17
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 332
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab9d60d376f495e60800000000000000
+      internalID: 7951473921923406266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_18
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 332
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51464362b23aea640800000000000000
+      internalID: 5093187634322498581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_19
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 332
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a88b1c4e5b28d5a0800000000000000
+      internalID: -6496394778478147415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_20
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 330
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f33fb7ff9d51a2b30800000000000000
+      internalID: 4263244023297995583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_21
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 313
+        width: 31
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 904820c77d23d0750800000000000000
+      internalID: 6272725757076866057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_22
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 334
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36aa3dbc34ff4f630800000000000000
+      internalID: 3960070639013046883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_23
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 334
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87da520a548a61df0800000000000000
+      internalID: -209795315633115784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_24
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 280
+        width: 59
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c82db107774aa140800000000000000
+      internalID: 4731672934961981639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_25
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 337
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1869988369d7e4570800000000000000
+      internalID: 8452831634768107137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_26
+      rect:
+        serializedVersion: 2
+        x: 446
+        y: 334
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 894e15dc3a06fde10800000000000000
+      internalID: 2224602997584946328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_27
+      rect:
+        serializedVersion: 2
+        x: 907
+        y: 337
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe534dd408ee5cb10800000000000000
+      internalID: 2001267844265031151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_28
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 334
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e406ce00d9b07e430800000000000000
+      internalID: 3812028378545676366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_29
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 341
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5640d8e33f54ba1f0800000000000000
+      internalID: -1032654778522598299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_30
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 337
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 469969b3936ca9ed0800000000000000
+      internalID: -2406393101760947868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_31
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 227
+        width: 157
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e56a0581bc5efe590800000000000000
+      internalID: -7642637382175381922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_32
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 337
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03a2d3dba9afb89d0800000000000000
+      internalID: -2770845603209598416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_33
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 316
+        width: 28
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8701b61a46a39f6c0800000000000000
+      internalID: -4109188981119577992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_34
+      rect:
+        serializedVersion: 2
+        x: 1326
+        y: 325
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84013461c8bf766f0800000000000000
+      internalID: -691307438690594744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_35
+      rect:
+        serializedVersion: 2
+        x: 1669
+        y: 316
+        width: 33
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fd39e5be9d0578f0800000000000000
+      internalID: -543513204720321036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_36
+      rect:
+        serializedVersion: 2
+        x: 1680
+        y: 248
+        width: 49
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c133727f65e794850800000000000000
+      internalID: 6361754860616364828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_37
+      rect:
+        serializedVersion: 2
+        x: 1779
+        y: 334
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7cf5c56ec5410500800000000000000
+      internalID: 360646197939403900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_38
+      rect:
+        serializedVersion: 2
+        x: 1786
+        y: 337
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd62e9eb9ab756db0800000000000000
+      internalID: -4799293858915670309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_39
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 296
+        width: 20
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85fabd253d5683810800000000000000
+      internalID: 1745256813908701016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_40
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 332
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4211f71406ced640800000000000000
+      internalID: 5106736748368564810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_41
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 318
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46ec56ab26ee605e0800000000000000
+      internalID: -1943604081362350492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_42
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 287
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 514b5108f25d29f80800000000000000
+      internalID: -8101178379697015787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_43
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 309
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ae6676949c9429b0800000000000000
+      internalID: -5105783915537862999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_44
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 312
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b307f0bfd39b308c0800000000000000
+      internalID: -4034177165337595845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_45
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 287
+        width: 10
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e32ddc97534cec490800000000000000
+      internalID: -7724020576937979330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_46
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 315
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 704233e651f4f8370800000000000000
+      internalID: 8326961189493089287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_47
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 309
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87449b2bfaa646730800000000000000
+      internalID: 3991432472607409272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_48
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 301
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d53a2d4b702165f0800000000000000
+      internalID: -765294747728595495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_49
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 310
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 675ab19c6f03ef960800000000000000
+      internalID: 7637595854561060214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_50
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 278
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4387ad9460c88dc0800000000000000
+      internalID: -3636445160727411891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_51
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 293
+        width: 36
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b3aa929c7da37860800000000000000
+      internalID: 7526550152813388722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_52
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 278
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d31477d6301a50b80800000000000000
+      internalID: -8429154091460509379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_53
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 269
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad0463cbafd324db0800000000000000
+      internalID: -4809213304969477926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_54
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 271
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fcf8270b1b929920800000000000000
+      internalID: 2995627242541350128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_55
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 262
+        width: 10
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61d633f10883889b0800000000000000
+      internalID: -5077746456929800938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_56
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 269
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e3021f558c2ead40800000000000000
+      internalID: 5597460338205393891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_57
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 270
+        width: 6
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38ea54075f8b15980800000000000000
+      internalID: -8551850853109748093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_58
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 273
+        width: 38
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 820558ce9a8d80ae0800000000000000
+      internalID: -1582777044691496920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_59
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 260
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 223f3265c36ce8b40800000000000000
+      internalID: 5444506961983042338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_60
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 260
+        width: 29
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ad1eb0670f7a5cc0800000000000000
+      internalID: -3721522472403722843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_61
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 317
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e92aa7cbf08cdbb0800000000000000
+      internalID: -4909907674865718810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_62
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 285
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7775925993f7562d0800000000000000
+      internalID: -3286080467804530825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_63
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 278
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0e00f678ff585e70800000000000000
+      internalID: 9104132167481429514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_64
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 269
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fa15fd8bb0b3b230800000000000000
+      internalID: 3653458042314627833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_65
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 262
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08f869bdc6c7c6140800000000000000
+      internalID: 4714279716932456320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_66
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 276
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f9fa049e4bf21fc0800000000000000
+      internalID: -3525479243367908872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_67
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 303
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d1b5549922e161f0800000000000000
+      internalID: -1053312169617804840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_68
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 303
+        width: 10
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9569777f031106b0800000000000000
+      internalID: -5331959526680074853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_69
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 313
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2005e094c02b42b0800000000000000
+      internalID: -5599345683088474068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_70
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 276
+        width: 40
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87370c19bba734250800000000000000
+      internalID: 5927716480572486520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_71
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 260
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11d0dabcf92e0fb70800000000000000
+      internalID: 8930887237020486929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_72
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 313
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f87568cf6cafd3c0800000000000000
+      internalID: -4332554720403687183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_73
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 255
+        width: 47
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ec8025d39842d90800000000000000
+      internalID: -7123417814130962911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_74
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 294
+        width: 22
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6f2fe4240bc08a70800000000000000
+      internalID: 8827278488306134895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_75
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 257
+        width: 42
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05f37e92ed6ffbf00800000000000000
+      internalID: 1134897065166847824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_76
+      rect:
+        serializedVersion: 2
+        x: 729
+        y: 316
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a023e5b9809bdd30800000000000000
+      internalID: 4457315177349718179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_77
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 314
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6a2d531ca42faf50800000000000000
+      internalID: 6894769876005366378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_78
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 316
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e9a00c298849eae0800000000000000
+      internalID: -1519603645274871326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_79
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 290
+        width: 6
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da554d2c393f38ad0800000000000000
+      internalID: -2701047535537728083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_80
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 285
+        width: 22
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d3a36311e2e91780800000000000000
+      internalID: -8711682547850697768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_81
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 303
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f10b26f0a440fe0e0800000000000000
+      internalID: -2238565773647630305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_82
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 257
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e230e2789a02bf10800000000000000
+      internalID: 2283899610908865254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_83
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 241
+        width: 47
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d8ca85e6b1e27660800000000000000
+      internalID: 7382210914865039569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_84
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 287
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6666f4fb90237d900800000000000000
+      internalID: 709090483779888742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_85
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 283
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f81da2119e2eb5900800000000000000
+      internalID: 674382059865297295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_86
+      rect:
+        serializedVersion: 2
+        x: 999
+        y: 273
+        width: 17
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52ef71ef28a21b4b0800000000000000
+      internalID: -5426509333907636699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_87
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 260
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b942696f712dc5a80800000000000000
+      internalID: -8476669398255000421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_88
+      rect:
+        serializedVersion: 2
+        x: 1262
+        y: 255
+        width: 53
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcd518e44a82a7470800000000000000
+      internalID: 8393065541715189197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_89
+      rect:
+        serializedVersion: 2
+        x: 1308
+        y: 294
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 580c129569affc1f0800000000000000
+      internalID: -1022323066742390651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_90
+      rect:
+        serializedVersion: 2
+        x: 1313
+        y: 318
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 035b849253c66dfa0800000000000000
+      internalID: -5776310496474385104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_91
+      rect:
+        serializedVersion: 2
+        x: 1324
+        y: 244
+        width: 71
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc32dd4ab09f88c40800000000000000
+      internalID: 5514931572121084879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_92
+      rect:
+        serializedVersion: 2
+        x: 1511
+        y: 260
+        width: 17
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b6472dcaebf32b50800000000000000
+      internalID: 6567369667519137463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_93
+      rect:
+        serializedVersion: 2
+        x: 1772
+        y: 267
+        width: 36
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97ae9777a3b5249a0800000000000000
+      internalID: -6250333026166117767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_94
+      rect:
+        serializedVersion: 2
+        x: 1790
+        y: 317
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a023c53f8767979e0800000000000000
+      internalID: -1623135928839294454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_95
+      rect:
+        serializedVersion: 2
+        x: 1881
+        y: 287
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3500683f4a1d8970800000000000000
+      internalID: 8758685777856038206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_96
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 244
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f59524081bde9b840800000000000000
+      internalID: 5240480988039108959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_97
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 251
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a151cf1d3e7502d0800000000000000
+      internalID: -3313103149870263901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_98
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 245
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f816376d23f2c5710800000000000000
+      internalID: 1683272256122478991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_99
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 246
+        width: 18
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 119e42c9b25d61af0800000000000000
+      internalID: -425918731459958511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_100
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 244
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6c873bc943c68580800000000000000
+      internalID: -8825151698076464017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_101
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 241
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 632cc689da3e277e0800000000000000
+      internalID: -1769101368877071818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_102
+      rect:
+        serializedVersion: 2
+        x: 764
+        y: 236
+        width: 10
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef75f58cbc696da20800000000000000
+      internalID: 3086820396593272830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_103
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 246
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9faa5e2e34f835bd0800000000000000
+      internalID: -2642611034604066055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_104
+      rect:
+        serializedVersion: 2
+        x: 1262
+        y: 206
+        width: 13
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0f89831f1ec87f60800000000000000
+      internalID: 8032396568282369802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_105
+      rect:
+        serializedVersion: 2
+        x: 1271
+        y: 238
+        width: 15
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f115afce88a8469e0800000000000000
+      internalID: -1629024844505263841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_106
+      rect:
+        serializedVersion: 2
+        x: 1308
+        y: 239
+        width: 13
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bec83b58c1d69a120800000000000000
+      internalID: 2425589843585371371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_107
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 248
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d2f4652f26e7c2b0800000000000000
+      internalID: -5564225724427734320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_108
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 229
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fbfb0233ff341a70800000000000000
+      internalID: 8796726285910670326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_109
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 232
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6320186a4213811e0800000000000000
+      internalID: -2226975982252654026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_110
+      rect:
+        serializedVersion: 2
+        x: 667
+        y: 239
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a36f3093c27f572f0800000000000000
+      internalID: -975601974948661702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_111
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 241
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf82f2018608244b0800000000000000
+      internalID: -5457658613983139589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_112
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1920
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c7e4956426328a60800000000000000
+      internalID: 7674756244943726534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_113
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 217
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b1543bdcdbc72d00800000000000000
+      internalID: 947950396015661493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_114
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 220
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d7c54b43bc8988a0800000000000000
+      internalID: -6302351501838399527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_115
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 226
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c33973b7c3c5d6e80800000000000000
+      internalID: -8183783533027290308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_116
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 222
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a969645522de7730800000000000000
+      internalID: 3998864576923396515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_117
+      rect:
+        serializedVersion: 2
+        x: 1244
+        y: 210
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d50dde65be816090800000000000000
+      internalID: -8042990549606791721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_118
+      rect:
+        serializedVersion: 2
+        x: 1274
+        y: 220
+        width: 7
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9929f379127e2ff90800000000000000
+      internalID: -6921215545857568103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_119
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 222
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d98a4dc5a3e8c120800000000000000
+      internalID: 2434445899847076307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_120
+      rect:
+        serializedVersion: 2
+        x: 1507
+        y: 223
+        width: 21
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 272cdb37713d8d8c0800000000000000
+      internalID: -3974194573474938254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_121
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 204
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e3f7961247796d70800000000000000
+      internalID: 9036885253026214882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_122
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 209
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e08e5f5dccdf95be0800000000000000
+      internalID: -1487879145664419826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_123
+      rect:
+        serializedVersion: 2
+        x: 1271
+        y: 208
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bc7253ef7eea14d0800000000000000
+      internalID: -3162953555232260935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_124
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 203
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 250e6833f376a1890800000000000000
+      internalID: -7486557909404950446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_125
+      rect:
+        serializedVersion: 2
+        x: 1338
+        y: 213
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae6926e9adb0cc890800000000000000
+      internalID: -7436555851107494166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brim_126
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 194
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f6e0c910d1482250800000000000000
+      internalID: 5920054072219592435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
