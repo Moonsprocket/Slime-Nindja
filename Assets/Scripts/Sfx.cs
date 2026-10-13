@@ -25,6 +25,9 @@ public static class Sfx
     static AudioSource[] sources;
     static AudioSource loop, wind, music;
     static float musicTarget;
+    // Дубли: несколько записей одного и того же звука. Игра берёт случайный, поэтому срезы подряд не звучат одинаково.
+    static AudioClip[] acidTakes, mercuryTakes, magmaTakes;
+    static AudioClip lastTake;
     static int next, tossFrame;
     static float windLevel;
     static System.Random rng;
@@ -125,6 +128,31 @@ public static class Sfx
         frenzy = Make("Frenzy");
         transmute = Make("Transmute");
         ambient = Make("Ambient");
+        acidTakes = Takes("Acid");
+        mercuryTakes = Takes("Mercury");
+        magmaTakes = Takes("Magma");
+    }
+
+    // Дубли лежат в Resources/Sounds под именами с номером: Acid1, Acid2, Acid3… Сколько файлов — столько и дублей.
+    static AudioClip[] Takes(string name)
+    {
+        var list = new List<AudioClip>();
+        for (int i = 1; ; i++)
+        {
+            var clip = Resources.Load<AudioClip>(CustomFolder + "/" + name + i);
+            if (clip == null) break;
+            list.Add(clip);
+        }
+        return list.ToArray();
+    }
+
+    // Случайный дубль, но не тот же, что звучал только что.
+    static AudioClip Take(AudioClip[] takes)
+    {
+        AudioClip clip = takes[Random.Range(0, takes.Length)];
+        if (clip == lastTake && takes.Length > 1) clip = takes[(System.Array.IndexOf(takes, clip) + 1) % takes.Length];
+        lastTake = clip;
+        return clip;
     }
 
     // Свой звук из Resources/Sounds важнее синтезированного.
@@ -331,16 +359,15 @@ public static class Sfx
             return v;
         });
 
-        // Фон лаборатории: котёл только начинает закипать. Редкие мягкие «бульки» разной высоты, еле слышное
-        // шипение воздуха и тихое магическое гудение — высокий «стеклянный» аккорд, который то проступает, то тает.
-        // Баса и ровного гула нет. Шипение замкнуто в бесшовную петлю, бульки не пересекают её стык.
+        // Фон лаборатории: котёл только начинает закипать. Редкие мягкие «бульки» разной высоты и тихое магическое
+        // гудение — высокий «стеклянный» аккорд, который то проступает, то тает. Баса, ровного гула и шипения нет:
+        // шипящая подложка, плавно нараставшая и спадавшая, звучала как морской прибой, и её убрали.
+        // Бульки не пересекают стык петли.
         const float len = 12f;
-        float hiss = 0f, hissLow = 0f;
         Bake("Ambient", len + WindSeam, t =>
         {
-            hiss += (White() - hiss) * 0.12f;
-            hissLow += (hiss - hissLow) * 0.01f;
-            return (hiss - hissLow) * (0.6f + 0.4f * Mathf.Sin(Tau * t / 6f)) * 0.03f;
+            White();    // случайные числа расходуются как раньше: поэтому бульки остались на своих прежних местах
+            return 0f;
         }, true);
         float[] bed = Seamless(baked["Ambient"], (int)(WindSeam * Rate));
         baked["Ambient"] = bed;
@@ -452,16 +479,21 @@ public static class Sfx
         float jitter = Random.Range(-0.04f, 0.04f);
         switch (kind)
         {
-            case Kind.Magma:
-                Play(magma, 0.85f, 1f + jitter);
-                Play(squelch, 0.35f, 0.7f + jitter);
+            case Kind.Magma:     // тяжёлый горячий удар: своя запись, а без неё — синтезированный с «чпоком»
+                if (magmaTakes.Length > 0) Play(Take(magmaTakes), 0.65f, 1f + jitter);
+                else
+                {
+                    Play(magma, 0.85f, 1f + jitter);
+                    Play(squelch, 0.35f, 0.7f + jitter);
+                }
                 break;
             case Kind.Geode:     // аметист: сухой кристаллический треск и звон осколков
                 Play(crack, 0.8f, 1f + jitter);
                 Play(squelch, 0.45f, 0.9f + jitter);
                 break;
-            case Kind.Mercury:   // металл звенит
-                Play(ding, 0.7f, 1f + jitter);
+            case Kind.Mercury:   // жидкий металл: свои записи, а без них — звон
+                if (mercuryTakes.Length > 0) Play(Take(mercuryTakes), 0.42f, 1f + jitter);
+                else Play(ding, 0.7f, 1f + jitter);
                 break;
             case Kind.Nugget:
                 Play(ding, 0.5f, 1.5f + jitter);
@@ -476,9 +508,13 @@ public static class Sfx
             case Kind.Mini:
                 Play(squelch, 0.7f, 1.3f + jitter);
                 break;
-            default:             // кислотный: желейный «чпок» и тихое шипение хвостом
-                Play(squelch, 0.8f, 1f + jitter);
-                Play(fizz, 0.22f, 1f + jitter);
+            default:             // обычный зелёный: свои записи, а без них — желейный «чпок» с тихим шипением
+                if (acidTakes.Length > 0) Play(Take(acidTakes), 0.65f, 1f + jitter);
+                else
+                {
+                    Play(squelch, 0.8f, 1f + jitter);
+                    Play(fizz, 0.22f, 1f + jitter);
+                }
                 break;
         }
         Step(chain);
