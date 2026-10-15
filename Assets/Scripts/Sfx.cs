@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 // Звуки игры. Каждый звук — файл WAV в Assets/Resources/Sounds: его можно открыть, отредактировать или заменить своим.
@@ -33,14 +32,13 @@ public static class Sfx
     static System.Random rng;
     static Dictionary<string, float[]> baked;
     static Dictionary<string, AudioClip> clips;
-    static Task job;
 
-    static bool Ready { get { return clips != null && clips["Swoosh"] != null; } }
+    static bool Ready { get { return swoosh != null; } }
 
-    // Синтез — чистая математика, поэтому идёт в фоновом потоке, пока главный рисует графику.
+    // Подготовка звуков: загрузка аудиоклипов из Resources или процедурный синтез при их отсутствии.
     public static void Prepare()
     {
-        if (!Ready && job == null) job = Task.Run(Synthesize);
+        if (!Ready) Publish();
     }
 
     // Сырые буферы всех звуков — для выгрузки в WAV из меню редактора.
@@ -82,20 +80,6 @@ public static class Sfx
         AudioListener.volume = PlayerPrefs.GetFloat(VolumeKey, 0.8f);
         Slow = 1f;
 
-        if (!Ready)
-        {
-            Prepare();
-            job.Wait();
-            job = null;
-            clips = new Dictionary<string, AudioClip>();
-            foreach (var pair in baked)
-            {
-                var clip = AudioClip.Create(pair.Key, pair.Value.Length, 1, Rate, false);
-                clip.SetData(pair.Value, 0);
-                clips[pair.Key] = clip;
-            }
-            baked = null;
-        }
         // Свои файлы подхватываются при каждом запуске, поэтому замена звука не требует перезапуска редактора.
         Publish();
 
@@ -155,11 +139,27 @@ public static class Sfx
         return clip;
     }
 
-    // Свой звук из Resources/Sounds важнее синтезированного.
+    static void EnsureSynthesized()
+    {
+        if (clips != null) return;
+        Synthesize();
+        clips = new Dictionary<string, AudioClip>();
+        foreach (var pair in baked)
+        {
+            var clip = AudioClip.Create(pair.Key, pair.Value.Length, 1, Rate, false);
+            clip.SetData(pair.Value, 0);
+            clips[pair.Key] = clip;
+        }
+        baked = null;
+    }
+
+    // Свой звук из Resources/Sounds важнее синтезированного. Если файл не найден, используется синтезированный клип.
     static AudioClip Make(string name)
     {
         var custom = Resources.Load<AudioClip>(CustomFolder + "/" + name);
-        return custom != null ? custom : clips[name];
+        if (custom != null) return custom;
+        EnsureSynthesized();
+        return clips != null && clips.TryGetValue(name, out var clip) ? clip : null;
     }
 
     static void Synthesize()
