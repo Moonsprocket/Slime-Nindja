@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         Application.targetFrameRate = Mathf.Max(60, Mathf.RoundToInt((float)Screen.currentResolution.refreshRateRatio.value));
         Sliceable.Active.Clear();
+        Sliceable.ClearPool();
 
         cam = Camera.main;
         cam.backgroundColor = Color.black;

@@ -11,6 +11,24 @@ public class Sliceable : MonoBehaviour
     const float SplitGuard = 0.16f;  // после раскола/деления объект мгновение неуязвим, иначе тот же взмах убьёт его сразу
 
     public static readonly List<Sliceable> Active = new List<Sliceable>();
+    static readonly Dictionary<Kind, Queue<Sliceable>> pool = new Dictionary<Kind, Queue<Sliceable>>();
+
+    public static void ClearPool()
+    {
+        foreach (var pair in pool)
+        {
+            while (pair.Value.Count > 0)
+            {
+                var s = pair.Value.Dequeue();
+                if (s != null && s.gameObject != null)
+                {
+                    if (Application.isPlaying) Destroy(s.gameObject);
+                    else DestroyImmediate(s.gameObject);
+                }
+            }
+        }
+        pool.Clear();
+    }
 
     public SlimeDef Def { get; private set; }
     public float Radius { get; private set; }
@@ -29,11 +47,42 @@ public class Sliceable : MonoBehaviour
 
     public static Sliceable Spawn(SlimeDef def, Vector2 pos, Vector2 vel, float gravity, bool hover = false, float guard = 0f)
     {
-        var go = new GameObject(def.name);
-        go.transform.SetParent(Fx.Root, false);
-        go.transform.position = pos;
+        Sliceable s = null;
+        if (pool.TryGetValue(def.kind, out var q))
+        {
+            while (q.Count > 0)
+            {
+                var candidate = q.Dequeue();
+                if (candidate != null && candidate.gameObject != null)
+                {
+                    s = candidate;
+                    break;
+                }
+            }
+        }
 
-        var s = go.AddComponent<Sliceable>();
+        if (s == null)
+        {
+            var go = new GameObject(def.name);
+            go.transform.SetParent(Fx.Root, false);
+            s = go.AddComponent<Sliceable>();
+
+            int order = def.IsBomb ? Fx.OrderBomb : Fx.OrderSlime;
+            var glowGo = Fx.NewSprite("Glow", Art.Soft, WithAlpha(def.glow, def.IsBomb ? 0.6f : 0.3f), order - 1, go.transform);
+            s.glow = glowGo.transform;
+            s.glowRenderer = glowGo.GetComponent<SpriteRenderer>();
+
+            var bodyGo = Fx.NewSprite("Body", def.kind == Kind.Geode ? def.shell : def.whole, Color.white, order, go.transform);
+            s.body = bodyGo.transform;
+            s.bodyRenderer = bodyGo.GetComponent<SpriteRenderer>();
+        }
+        else
+        {
+            s.transform.SetParent(Fx.Root, false);
+            s.gameObject.SetActive(true);
+        }
+
+        s.transform.position = pos;
         s.Def = def;
         s.vel = vel;
         s.gravity = gravity;
@@ -45,19 +94,21 @@ public class Sliceable : MonoBehaviour
         s.phase = Random.Range(0f, 6.28f);
         s.wobble = 0.26f;
         s.blinkTimer = Random.Range(0.6f, 2.5f);
+        s.blinkLeft = 0f;
+        s.trailTimer = 0f;
+        s.age = 0f;
         s.Prev = pos;
         s.Alive = true;
         s.Radius = RadiusOf(def) * (hover ? HoverScale : 1f);
 
-        int order = def.IsBomb ? Fx.OrderBomb : Fx.OrderSlime;
-        var glowGo = Fx.NewSprite("Glow", Art.Soft, WithAlpha(def.glow, def.IsBomb ? 0.6f : 0.3f), order - 1, go.transform);
-        s.glow = glowGo.transform;
+        int renderOrder = def.IsBomb ? Fx.OrderBomb : Fx.OrderSlime;
+        s.glowRenderer.sortingOrder = renderOrder - 1;
+        s.glowRenderer.color = WithAlpha(def.glow, def.IsBomb ? 0.6f : 0.3f);
         s.glow.localScale = Vector3.one * 2.5f;
-        s.glowRenderer = glowGo.GetComponent<SpriteRenderer>();
 
-        var bodyGo = Fx.NewSprite("Body", s.Shelled ? def.shell : def.whole, Color.white, order, go.transform);
-        s.body = bodyGo.transform;
-        s.bodyRenderer = bodyGo.GetComponent<SpriteRenderer>();
+        s.bodyRenderer.sortingOrder = renderOrder;
+        s.bodyRenderer.sprite = s.Shelled ? def.shell : def.whole;
+        s.bodyRenderer.color = Color.white;
 
         s.Pose(0f);
         Active.Add(s);
@@ -254,9 +305,19 @@ public class Sliceable : MonoBehaviour
 
     void Remove()
     {
+        if (!Alive && !gameObject.activeSelf) return;
         Alive = false;
         Active.Remove(this);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        if (Def != null)
+        {
+            if (!pool.TryGetValue(Def.kind, out var q))
+            {
+                q = new Queue<Sliceable>();
+                pool[Def.kind] = q;
+            }
+            q.Enqueue(this);
+        }
     }
 
     void OnDestroy()

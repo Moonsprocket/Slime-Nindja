@@ -561,6 +561,7 @@ public static class Fx
 
     static void Emit(ParticleSystem ps, Vector2 pos, Vector2 vel, float size, float life, Color color, float rotation = 0f)
     {
+        if (ps == null) return;
         var p = new ParticleSystem.EmitParams
         {
             position = pos,
