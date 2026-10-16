@@ -232,8 +232,14 @@ public class Blade : MonoBehaviour
     {
         if (golden == value) return;
         golden = value;
-        Paint(glow, value ? Golden : Aether, 0.4f);
-        Paint(core, value ? new Color(1f, 0.97f, 0.8f) : Color.white, 1f);
+        RefreshBladeColor();
+    }
+
+    public void RefreshBladeColor()
+    {
+        Color baseColor = (GameManager.Instance != null) ? GameManager.Instance.ActiveBladeColor : Aether;
+        Paint(glow, golden ? Golden : baseColor, 0.4f);
+        Paint(core, golden ? new Color(1f, 0.97f, 0.8f) : Color.white, 1f);
     }
 
     static void Paint(LineRenderer line, Color color, float alpha)

@@ -17,9 +17,37 @@ public class GameManager : MonoBehaviour
     const string BestKey = "alchemia.best";
     const string StoryKey = "alchemia.story"; // предыстория сама показывается только при первом запуске
     const string ComboKey = "alchemia.combo", SlicedKey = "alchemia.sliced", StreakKey = "alchemia.streak";
+    const string EssenceKey = "alchemia.essence";
+    const string SelectedBladeKey = "alchemia.blade_selected";
+    const string UnlockedBladesKey = "alchemia.blades_unlocked";
+    const float InterstitialCooldown = 70f;
 
     static readonly Color Gold = new Color(1f, 0.85f, 0.3f);
     static readonly Color Mint = new Color(0.62f, 0.98f, 0.88f);  // цвет надписей-наград, тот же, что в интерфейсе
+
+    public struct BladeInfo
+    {
+        public string id;
+        public string name;
+        public int cost;
+        public Color color;
+
+        public BladeInfo(string id, string name, int cost, Color color)
+        {
+            this.id = id;
+            this.name = name;
+            this.cost = cost;
+            this.color = color;
+        }
+    }
+
+    public static readonly BladeInfo[] Blades = new BladeInfo[]
+    {
+        new BladeInfo("azure", "Лазурный клинок", 0, new Color(0.4f, 0.9f, 1f)),
+        new BladeInfo("emerald", "Изумрудный луч", 100, new Color(0.2f, 1f, 0.45f)),
+        new BladeInfo("flame", "Огненная сабля", 250, new Color(1f, 0.45f, 0.15f)),
+        new BladeInfo("void", "Эфирный серп", 500, new Color(0.85f, 0.35f, 1f))
+    };
 
     public static GameManager Instance { get; private set; }
     public static Rect View { get; private set; }        // видимая область в мировых координатах
@@ -37,6 +65,9 @@ public class GameManager : MonoBehaviour
     public int Streak { get; private set; }         // серия: слаймы подряд без промаха и без взрыва
     public int BestStreak { get; private set; }     // лучшая серия этой попытки
     public int BestStreakEver { get; private set; } // и за все попытки
+    public int Essence { get; private set; }        // мета-валюта для кузницы клинков
+    public int SelectedBladeIndex { get; private set; }
+    public bool RevivedThisRun { get; private set; }
     public float FrenzyLeft { get; private set; }   // Alembic Frenzy: очки ×2, но котёл извергается на пределе
     public float FrenzySpan { get; private set; }
     public int FrenzyTier { get; private set; }     // уровень полоски комбо: чем крупнее комбо, тем он выше
@@ -44,6 +75,16 @@ public class GameManager : MonoBehaviour
     public float SlowLeft { get; private set; }     // трансмутация: мир замедлен, рука игрока — нет
     public Hud Hud { get; private set; }
     public bool Paused { get; private set; }        // пауза по правой кнопке мыши
+
+    public Color ActiveBladeColor
+    {
+        get
+        {
+            if (SelectedBladeIndex >= 0 && SelectedBladeIndex < Blades.Length)
+                return Blades[SelectedBladeIndex].color;
+            return Blades[0].color;
+        }
+    }
 
     public int Mult { get { return FrenzyLeft > 0f ? 2 : 1; } }
     public bool Empowered { get { return FrenzyLeft > 0f || SlowLeft > 0f; } }
@@ -63,6 +104,8 @@ public class GameManager : MonoBehaviour
     bool newBest, fanfare, saved;
     float shakeAmp, shakeDuration, shakeLeft;
     float flow = 1f, dipScale = 1f, dipLeft, hitstopLeft, shock;
+    float lastInterstitialTime = -100f;
+    string unlockedBlades = "azure";
 
     void Awake()
     {
@@ -98,6 +141,9 @@ public class GameManager : MonoBehaviour
         BestComboEver = PlayerPrefs.GetInt(ComboKey, 0);
         BestStreakEver = PlayerPrefs.GetInt(StreakKey, 0);
         TotalSliced = PlayerPrefs.GetInt(SlicedKey, 0);
+        Essence = PlayerPrefs.GetInt(EssenceKey, 0);
+        SelectedBladeIndex = PlayerPrefs.GetInt(SelectedBladeKey, 0);
+        unlockedBlades = PlayerPrefs.GetString(UnlockedBladesKey, "azure");
     }
 
     void Start()
@@ -120,14 +166,125 @@ public class GameManager : MonoBehaviour
         if (cloud.bestCombo > BestComboEver) { BestComboEver = cloud.bestCombo; PlayerPrefs.SetInt(ComboKey, BestComboEver); changed = true; }
         if (cloud.bestStreak > BestStreakEver) { BestStreakEver = cloud.bestStreak; PlayerPrefs.SetInt(StreakKey, BestStreakEver); changed = true; }
         if (cloud.totalSliced > TotalSliced) { TotalSliced = cloud.totalSliced; PlayerPrefs.SetInt(SlicedKey, TotalSliced); changed = true; }
+        if (cloud.essence > Essence) { Essence = cloud.essence; PlayerPrefs.SetInt(EssenceKey, Essence); changed = true; }
+        if (!string.IsNullOrEmpty(cloud.unlockedBlades))
+        {
+            var parts = cloud.unlockedBlades.Split(',');
+            foreach (var p in parts)
+            {
+                if (!string.IsNullOrEmpty(p) && !unlockedBlades.Contains(p))
+                {
+                    unlockedBlades += "," + p;
+                    changed = true;
+                }
+            }
+            PlayerPrefs.SetString(UnlockedBladesKey, unlockedBlades);
+        }
         if (changed)
         {
             PlayerPrefs.Save();
-            if (State == GameState.Menu)
+            if (State == GameState.Menu && Hud != null)
             {
                 Hud.ShowMenu(Best, BestComboEver, BestStreakEver, TotalSliced);
+                Hud.UpdateBladeButton();
             }
         }
+    }
+
+    public bool IsBladeUnlocked(int index)
+    {
+        if (index == 0) return true;
+        if (index < 0 || index >= Blades.Length) return false;
+        return unlockedBlades.Contains(Blades[index].id);
+    }
+
+    public void CycleBladeSkin()
+    {
+        int nextIndex = (SelectedBladeIndex + 1) % Blades.Length;
+        if (!IsBladeUnlocked(nextIndex))
+        {
+            if (Essence >= Blades[nextIndex].cost)
+            {
+                Essence -= Blades[nextIndex].cost;
+                unlockedBlades += "," + Blades[nextIndex].id;
+                SelectedBladeIndex = nextIndex;
+                PlayerPrefs.SetInt(EssenceKey, Essence);
+                PlayerPrefs.SetString(UnlockedBladesKey, unlockedBlades);
+                PlayerPrefs.SetInt(SelectedBladeKey, SelectedBladeIndex);
+                PlayerPrefs.Save();
+                SaveCloudData();
+                Sfx.Start();
+            }
+            else
+            {
+                SelectedBladeIndex = nextIndex;
+                Sfx.Toss();
+            }
+        }
+        else
+        {
+            SelectedBladeIndex = nextIndex;
+            PlayerPrefs.SetInt(SelectedBladeKey, SelectedBladeIndex);
+            PlayerPrefs.Save();
+            SaveCloudData();
+            Sfx.Toss();
+        }
+
+        var blade = FindAnyObjectByType<Blade>();
+        if (blade != null) blade.RefreshBladeColor();
+
+        if (Hud != null) Hud.UpdateBladeButton();
+    }
+
+    public void SaveCloudData()
+    {
+        if (YandexSDKManager.Instance != null)
+        {
+            YandexSDKManager.Instance.SaveCloud(new YandexSDKManager.CloudData
+            {
+                bestScore = Best,
+                bestCombo = BestComboEver,
+                bestStreak = BestStreakEver,
+                totalSliced = TotalSliced,
+                essence = Essence,
+                unlockedBlades = unlockedBlades,
+                selectedBlade = Blades[Mathf.Clamp(SelectedBladeIndex, 0, Blades.Length - 1)].id
+            });
+        }
+    }
+
+    public bool CanRevive()
+    {
+        return !RevivedThisRun && State == GameState.GameOver;
+    }
+
+    public void RequestReviveAd()
+    {
+        if (!CanRevive()) return;
+        if (YandexSDKManager.Instance != null)
+        {
+            YandexSDKManager.Instance.ShowRewarded(onRewarded: ReviveRun);
+        }
+        else
+        {
+            ReviveRun();
+        }
+    }
+
+    public void ReviveRun()
+    {
+        if (!CanRevive()) return;
+        RevivedThisRun = true;
+        Lives = 1;
+        State = GameState.Playing;
+        ClearField();
+        spawner.Begin();
+        spawner.Hold(1.2f);
+        Hud.ShowGame(Best);
+        Hud.SetLives(Lives, false);
+        Hud.SetScore(Score, false);
+        Hud.Shout("ВТОРОЙ ШАНС!", "+1 ЖИЗНЬ", 2.0f, Hud.Mint);
+        Sfx.Music(1f);
     }
 
     void Update()
@@ -151,7 +308,9 @@ public class GameManager : MonoBehaviour
 
         if (State == GameState.GameOver)
         {
-            if (Time.unscaledTime - stateSince >= RestartLock && Blade.PressBegan()) StartGame();
+            Vector2 screen;
+            bool overUI = Blade.Pointer(out screen) && Hud != null && Hud.IsPointerOverUI(screen);
+            if (Time.unscaledTime - stateSince >= RestartLock && Blade.PressBegan() && !overUI) StartGame();
             else if (Blade.EscapePressed()) ToMenu();
             else if (newBest) Celebrate(dt);
         }
@@ -263,6 +422,7 @@ public class GameManager : MonoBehaviour
         if (YandexSDKManager.Instance != null) YandexSDKManager.Instance.GameplayStart();
         ResetRun();
         Lives = MaxLives;
+        RevivedThisRun = false;
         knownRank = balance.RankOf(Best);
         saved = false;
         State = GameState.Playing;
@@ -308,6 +468,10 @@ public class GameManager : MonoBehaviour
             Best = Score;
             PlayerPrefs.SetInt(BestKey, Best);
         }
+        int earnedEssence = Mathf.Max(1, (Score / 10) + (BestCombo * 2));
+        Essence += earnedEssence;
+        PlayerPrefs.SetInt(EssenceKey, Essence);
+
         SaveProgress();
         fireworkTimer = 0.6f;
         fanfare = true;
@@ -315,6 +479,12 @@ public class GameManager : MonoBehaviour
         Sfx.GameOver();
         Sfx.Music(0.3f);
         TimeDip(0.3f, 0.5f);
+
+        if (Time.unscaledTime - lastInterstitialTime >= InterstitialCooldown && YandexSDKManager.Instance != null)
+        {
+            lastInterstitialTime = Time.unscaledTime;
+            YandexSDKManager.Instance.ShowInterstitial();
+        }
     }
 
     // Лучшее комбо и общий счёт разрубленных слаймов копятся между попытками — это долгая цель игрока.
@@ -328,6 +498,7 @@ public class GameManager : MonoBehaviour
         TotalSliced += Sliced;
         PlayerPrefs.SetInt(ComboKey, BestComboEver);
         PlayerPrefs.SetInt(SlicedKey, TotalSliced);
+        PlayerPrefs.SetInt(EssenceKey, Essence);
         PlayerPrefs.Save();
 
         if (YandexSDKManager.Instance != null)
@@ -337,7 +508,10 @@ public class GameManager : MonoBehaviour
                 bestScore = Best,
                 bestCombo = BestComboEver,
                 bestStreak = BestStreakEver,
-                totalSliced = TotalSliced
+                totalSliced = TotalSliced,
+                essence = Essence,
+                unlockedBlades = unlockedBlades,
+                selectedBlade = Blades[Mathf.Clamp(SelectedBladeIndex, 0, Blades.Length - 1)].id
             });
 
             if (Best > 0)

@@ -14,17 +14,17 @@
 | **CORE-02** | Пауза звука и потеря фокуса окна | CORE-01 | **DONE** | `f8ebb62` | Worker-Core | PASS |
 | **CORE-03** | Мобильная кнопка паузы и тач-UI | CORE-02 | **DONE** | `79b9025` | Worker-UI | PASS |
 | **CORE-04** | Настройки WebGL-сборки и сжатия | CORE-01 | **DONE** | `9d2373c` | Worker-Build | PASS |
-| **PERF-03** | Стриппинг шейдеров URP и сжатие аудио | CORE-04 | READY | — | Worker-Perf | Pending |
+| **PERF-03** | Стриппинг шейдеров URP и сжатие аудио | CORE-04 | **DONE** | `feat(meta-ads)` | Worker-Perf | PASS |
 | **PERF-01** | ObjectPool для слаймов (`Sliceable`) | CORE-01 | **DONE** | `087c02b` | Worker-Perf | PASS |
 | **PERF-02** | ObjectPool для частиц и всплывающего текста | PERF-01 | **DONE** | `45a701d` | Worker-Perf | PASS |
 | **YSDK-01** | Мост C#/JS (LoadingAPI & GameplayAPI) | CORE-02, CORE-04 | **DONE** | `feat(ysdk)` | Worker-YSDK | PASS |
 | **YSDK-02** | Двухуровневые облачные сохранения | YSDK-01 | **DONE** | `feat(ysdk)` | Worker-YSDK | PASS |
 | **YSDK-03** | Лидерборд рекордов (Leaderboards API) | YSDK-02 | **DONE** | `feat(ysdk)` | Worker-YSDK | PASS |
 | **GAME-01** | Идеальный срез (Bullseye Precision Cut) | CORE-01 | **DONE** | `f882ffb` | Worker-Game | PASS |
-| **GAME-02** | Динамические микро-события волн | GAME-01 | **DONE** | `feat(gameplay)` | Worker-Game | PASS |
-| **GAME-03** | Мета-валюта Эссенция и Кузница клинков | YSDK-02 | READY | — | Worker-Game | Pending |
-| **ADS-01** | Межстраничная реклама (Interstitial) | YSDK-01 | READY | — | Worker-Monetization | Pending |
-| **ADS-02** | Вознаграждаемая реклама (Rewarded Video) | YSDK-01, GAME-03 | READY | — | Worker-Monetization | Pending |
+| **GAME-02** | Динамические микро-события волн | GAME-01 | **DONE** | `f5997af` | Worker-Game | PASS |
+| **GAME-03** | Мета-валюта Эссенция и Кузница клинков | YSDK-02 | **DONE** | `feat(meta-ads)` | Worker-Game | PASS |
+| **ADS-01** | Межстраничная реклама (Interstitial) | YSDK-01 | **DONE** | `feat(meta-ads)` | Worker-Monetization | PASS |
+| **ADS-02** | Вознаграждаемая реклама (Rewarded Video) | YSDK-01, GAME-03 | **DONE** | `feat(meta-ads)` | Worker-Monetization | PASS |
 
 ---
 

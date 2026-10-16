@@ -28,7 +28,7 @@ public class Hud : MonoBehaviour
     ComboBar combo;
     CanvasGroup menu, game, over, pause;
     float menuTarget, gameTarget, overTarget, pauseTarget;
-    Text scoreText, deltaText, bestText, hintText, overScore, overBest, overStats, overRank, menuPrompt, overPrompt, comboText, comboBonus;
+    Text scoreText, deltaText, bestText, hintText, overScore, overBest, overStats, overRank, overEssence, menuPrompt, overPrompt, overEscPrompt, comboText, comboBonus;
     Text rankName, rankNext, rankBest, comboBest, comboNext, streakGoal, streakSteps, bestLine;
     StreakBar streak;
     RectTransform ghost, rankFill;
@@ -53,7 +53,8 @@ public class Hud : MonoBehaviour
     int shownScore, deltaSum, overTargetScore;
 
     public static Hud Instance { get; private set; }
-    RectTransform pauseBtnRect, resumeBtnRect, menuBtnRect;
+    RectTransform pauseBtnRect, resumeBtnRect, menuBtnRect, bladeBtnRect, reviveBtnRect;
+    Text bladeBtnText;
 
     public static Hud Create()
     {
@@ -146,6 +147,8 @@ public class Hud : MonoBehaviour
         BuildRankPanel(-424f);
         BuildComboPanel(424f);
 
+        bladeBtnRect = BuildActionButton(menu.transform, bottom, new Vector2(0f, 150f), new Vector2(380f, 44f), "КЛИНОК: ЛАЗУРНЫЙ КЛИНОК", Mint);
+        bladeBtnText = bladeBtnRect.GetComponentInChildren<Text>();
         menuPrompt = Label(menu.transform, titleFont, "Разрежь слайма, чтобы начать", 36, Mint, TextAnchor.MiddleCenter, bottom, new Vector2(0f, 104f));
         Label(menu.transform, font, "зажми кнопку мыши и проведи через него", 20, new Color(1f, 1f, 1f, 0.6f), TextAnchor.MiddleCenter, bottom, new Vector2(0f, 70f));
         Label(menu.transform, font, "Пробел — предыстория", 18, new Color(1f, 1f, 1f, 0.5f), TextAnchor.LowerLeft, Vector2.zero, new Vector2(26f, 18f));
@@ -169,9 +172,11 @@ public class Hud : MonoBehaviour
         Paint(overScore, Color.white, Mint);
         overBest = Label(over.transform, font, "", 34, Cream, TextAnchor.MiddleCenter, center, new Vector2(0f, -36f));
         overStats = Label(over.transform, font, "", 24, new Color(1f, 1f, 1f, 0.75f), TextAnchor.MiddleCenter, center, new Vector2(0f, -88f));
-        overRank = Label(over.transform, font, "", 26, Cream, TextAnchor.MiddleCenter, center, new Vector2(0f, -134f));
-        overPrompt = Label(over.transform, titleFont, "НАЖМИ — И СНОВА В БОЙ", 38, Mint, TextAnchor.MiddleCenter, center, new Vector2(0f, -196f));
-        Label(over.transform, font, "Esc — в меню", 18, new Color(1f, 1f, 1f, 0.45f), TextAnchor.MiddleCenter, center, new Vector2(0f, -246f));
+        overRank = Label(over.transform, font, "", 26, Cream, TextAnchor.MiddleCenter, center, new Vector2(0f, -126f));
+        overEssence = Label(over.transform, font, "", 22, Lilac, TextAnchor.MiddleCenter, center, new Vector2(0f, -162f));
+        reviveBtnRect = BuildActionButton(over.transform, center, new Vector2(0f, -206f), new Vector2(360f, 48f), "ВТОРОЙ ШАНС (+1 ЖИЗНЬ)", Lime);
+        overPrompt = Label(over.transform, titleFont, "НАЖМИ — И СНОВА В БОЙ", 38, Mint, TextAnchor.MiddleCenter, center, new Vector2(0f, -260f));
+        overEscPrompt = Label(over.transform, font, "Esc — в меню", 18, new Color(1f, 1f, 1f, 0.45f), TextAnchor.MiddleCenter, center, new Vector2(0f, -300f));
 
         // --- Пауза ---
         pause = Group("Pause");
@@ -411,6 +416,7 @@ public class Hud : MonoBehaviour
         for (int i = 0; i < balance.streakGoals.Length; i++)
             steps += "   " + Tint("×" + balance.streakGoals[i], bestStreak >= balance.streakGoals[i] ? StreakBar.TierColor(i + 1) : Locked);
         streakSteps.text = steps;
+        UpdateBladeButton();
     }
 
     public void ShowPause(bool on)
@@ -444,6 +450,26 @@ public class Hud : MonoBehaviour
                 + Number(balance.ranks[rank + 1].score - best);
         else overRank.text = "Звание: " + title;
 
+        int earned = Mathf.Max(1, (score / 10) + (bestCombo * 2));
+        if (overEssence != null)
+        {
+            overEssence.text = "+ " + earned + " ЭССЕНЦИИ (Всего: " + (GameManager.Instance != null ? GameManager.Instance.Essence : 0) + ")";
+        }
+
+        bool canRevive = GameManager.Instance != null && GameManager.Instance.CanRevive();
+        if (reviveBtnRect != null)
+        {
+            reviveBtnRect.gameObject.SetActive(canRevive);
+        }
+        if (overPrompt != null)
+        {
+            overPrompt.rectTransform.anchoredPosition = new Vector2(0f, canRevive ? -260f : -206f);
+        }
+        if (overEscPrompt != null)
+        {
+            overEscPrompt.rectTransform.anchoredPosition = new Vector2(0f, canRevive ? -300f : -250f);
+        }
+
         overTarget = 1f;
         gameTarget = 0.35f;
         overShownAt = Time.unscaledTime;
@@ -453,6 +479,25 @@ public class Hud : MonoBehaviour
         overBest.color = newBest ? Mint : Cream;
         overStats.text = "Разрезано: " + sliced + (bestCombo > 0 ? "     •     Комбо: ×" + bestCombo : "") + "     •     Серия: ×" + bestStreak;
         hintLeft = 0f;
+    }
+
+    public void UpdateBladeButton()
+    {
+        if (bladeBtnText == null || GameManager.Instance == null) return;
+        var gm = GameManager.Instance;
+        int idx = gm.SelectedBladeIndex;
+        var blade = GameManager.Blades[Mathf.Clamp(idx, 0, GameManager.Blades.Length - 1)];
+        bool unlocked = gm.IsBladeUnlocked(idx);
+        if (unlocked)
+        {
+            bladeBtnText.text = "КЛИНОК: " + blade.name.ToUpper();
+            bladeBtnText.color = blade.color;
+        }
+        else
+        {
+            bladeBtnText.text = "ОТКРЫТЬ: " + blade.name.ToUpper() + " (" + blade.cost + ")";
+            bladeBtnText.color = (gm.Essence >= blade.cost) ? Lime : Locked;
+        }
     }
 
     // ---------- Счёт и жизни ----------
@@ -629,6 +674,20 @@ public class Hud : MonoBehaviour
                 else if (menuBtnRect != null && IsInside(menuBtnRect, pointer))
                 {
                     gm.ExitToMenu();
+                }
+            }
+            else if (gm.State == GameState.Menu)
+            {
+                if (bladeBtnRect != null && IsInside(bladeBtnRect, pointer))
+                {
+                    gm.CycleBladeSkin();
+                }
+            }
+            else if (gm.State == GameState.GameOver)
+            {
+                if (reviveBtnRect != null && reviveBtnRect.gameObject.activeSelf && IsInside(reviveBtnRect, pointer))
+                {
+                    gm.RequestReviveAd();
                 }
             }
         }
@@ -880,12 +939,17 @@ public class Hud : MonoBehaviour
         }
         if (GameManager.Instance != null && GameManager.Instance.State == GameState.Menu)
         {
+            if (bladeBtnRect != null && IsInside(bladeBtnRect, screenPoint)) return true;
             if (menuVolume != null && menuVolume.track != null)
             {
                 Vector2 local;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(menuVolume.track, screenPoint, null, out local);
                 if (Mathf.Abs(local.y) < 25f && Mathf.Abs(local.x) < menuVolume.width * 0.5f + 25f) return true;
             }
+        }
+        if (GameManager.Instance != null && GameManager.Instance.State == GameState.GameOver)
+        {
+            if (reviveBtnRect != null && reviveBtnRect.gameObject.activeSelf && IsInside(reviveBtnRect, screenPoint)) return true;
         }
         return false;
     }
