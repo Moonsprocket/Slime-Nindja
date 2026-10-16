@@ -29,13 +29,15 @@ public class GameManager : MonoBehaviour
     {
         public string id;
         public string name;
+        public string rarity;
         public int cost;
         public Color color;
 
-        public BladeInfo(string id, string name, int cost, Color color)
+        public BladeInfo(string id, string name, string rarity, int cost, Color color)
         {
             this.id = id;
             this.name = name;
+            this.rarity = rarity;
             this.cost = cost;
             this.color = color;
         }
@@ -43,10 +45,18 @@ public class GameManager : MonoBehaviour
 
     public static readonly BladeInfo[] Blades = new BladeInfo[]
     {
-        new BladeInfo("azure", "Лазурный клинок", 0, new Color(0.4f, 0.9f, 1f)),
-        new BladeInfo("emerald", "Изумрудный луч", 100, new Color(0.2f, 1f, 0.45f)),
-        new BladeInfo("flame", "Огненная сабля", 250, new Color(1f, 0.45f, 0.15f)),
-        new BladeInfo("void", "Эфирный серп", 500, new Color(0.85f, 0.35f, 1f))
+        new BladeInfo("azure", "Эфирный скальпель", "Базовый", 0, new Color(0.4f, 0.9f, 1f)),
+        new BladeInfo("flame", "Пламенный росчерк", "Обычный", 300, new Color(1f, 0.45f, 0.15f)),
+        new BladeInfo("emerald", "Изумрудный алхимик", "Обычный", 500, new Color(0.2f, 1f, 0.45f)),
+        new BladeInfo("bone", "Костяной серп", "Обычный", 750, new Color(0.94f, 0.93f, 0.9f)),
+        new BladeInfo("frost", "Ледяная игла", "Редкий", 1000, new Color(0.55f, 0.91f, 1f)),
+        new BladeInfo("thunder", "Громовой коготь", "Редкий", 1500, new Color(1f, 0.94f, 0.3f)),
+        new BladeInfo("amethyst", "Аметистовый шип", "Редкий", 2000, new Color(0.7f, 0.35f, 1f)),
+        new BladeInfo("shadow", "Теневой клинок", "Эпический", 2500, new Color(0.35f, 0.15f, 0.55f)),
+        new BladeInfo("mercury", "Ртутный стилет", "Эпический", 3000, new Color(0.85f, 0.9f, 0.95f)),
+        new BladeInfo("sunbeam", "Солнечный луч", "Эпический", 3500, new Color(1f, 0.84f, 0f)),
+        new BladeInfo("bloodmoon", "Кровавая луна", "Легендарный", 4500, new Color(1f, 0.15f, 0.25f)),
+        new BladeInfo("magnum_opus", "Клинок Философа", "Легендарный", 5000, new Color(1f, 0.4f, 0.8f))
     };
 
     public static GameManager Instance { get; private set; }
@@ -66,6 +76,7 @@ public class GameManager : MonoBehaviour
     public int BestStreak { get; private set; }     // лучшая серия этой попытки
     public int BestStreakEver { get; private set; } // и за все попытки
     public int Essence { get; private set; }        // мета-валюта для кузницы клинков
+    public int LastEarnedEssence { get; private set; } // начислено за последний забег
     public int SelectedBladeIndex { get; private set; }
     public bool RevivedThisRun { get; private set; }
     public float FrenzyLeft { get; private set; }   // Alembic Frenzy: очки ×2, но котёл извергается на пределе
@@ -162,31 +173,55 @@ public class GameManager : MonoBehaviour
     {
         if (cloud == null) return;
         bool changed = false;
+
+        // Рекорды и статистика объединяются строго по максимуму
         if (cloud.bestScore > Best) { Best = cloud.bestScore; PlayerPrefs.SetInt(BestKey, Best); changed = true; }
         if (cloud.bestCombo > BestComboEver) { BestComboEver = cloud.bestCombo; PlayerPrefs.SetInt(ComboKey, BestComboEver); changed = true; }
         if (cloud.bestStreak > BestStreakEver) { BestStreakEver = cloud.bestStreak; PlayerPrefs.SetInt(StreakKey, BestStreakEver); changed = true; }
         if (cloud.totalSliced > TotalSliced) { TotalSliced = cloud.totalSliced; PlayerPrefs.SetInt(SlicedKey, TotalSliced); changed = true; }
+
+        // Эссенция: берем максимум (если на другом устройстве заработано больше)
         if (cloud.essence > Essence) { Essence = cloud.essence; PlayerPrefs.SetInt(EssenceKey, Essence); changed = true; }
+
+        // Разблокированные клинки объединяются через HashSet (Set Union) — локальные покупки не теряются
+        var currentSet = new HashSet<string>(unlockedBlades.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries));
+        currentSet.Add(Blades[0].id); // базовый клинок всегда открыт
         if (!string.IsNullOrEmpty(cloud.unlockedBlades))
         {
-            var parts = cloud.unlockedBlades.Split(',');
+            var parts = cloud.unlockedBlades.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
             foreach (var p in parts)
             {
-                if (!string.IsNullOrEmpty(p) && !unlockedBlades.Contains(p))
+                if (!string.IsNullOrEmpty(p) && currentSet.Add(p))
                 {
-                    unlockedBlades += "," + p;
                     changed = true;
                 }
             }
-            PlayerPrefs.SetString(UnlockedBladesKey, unlockedBlades);
         }
+        unlockedBlades = string.Join(",", currentSet);
+        PlayerPrefs.SetString(UnlockedBladesKey, unlockedBlades);
+
+        // Синхронизация выбранного клинка из облака при первом входе
+        if (!string.IsNullOrEmpty(cloud.selectedBlade) && SelectedBladeIndex == 0)
+        {
+            for (int i = 0; i < Blades.Length; i++)
+            {
+                if (Blades[i].id == cloud.selectedBlade && IsBladeUnlocked(i))
+                {
+                    SelectedBladeIndex = i;
+                    PlayerPrefs.SetInt(SelectedBladeKey, SelectedBladeIndex);
+                    changed = true;
+                    break;
+                }
+            }
+        }
+
         if (changed)
         {
             PlayerPrefs.Save();
             if (State == GameState.Menu && Hud != null)
             {
                 Hud.ShowMenu(Best, BestComboEver, BestStreakEver, TotalSliced);
-                Hud.UpdateBladeButton();
+                Hud.RefreshShopUI();
             }
         }
     }
@@ -198,42 +233,75 @@ public class GameManager : MonoBehaviour
         return unlockedBlades.Contains(Blades[index].id);
     }
 
-    public void CycleBladeSkin()
+    public bool SelectBlade(int index)
     {
-        int nextIndex = (SelectedBladeIndex + 1) % Blades.Length;
-        if (!IsBladeUnlocked(nextIndex))
-        {
-            if (Essence >= Blades[nextIndex].cost)
-            {
-                Essence -= Blades[nextIndex].cost;
-                unlockedBlades += "," + Blades[nextIndex].id;
-                SelectedBladeIndex = nextIndex;
-                PlayerPrefs.SetInt(EssenceKey, Essence);
-                PlayerPrefs.SetString(UnlockedBladesKey, unlockedBlades);
-                PlayerPrefs.SetInt(SelectedBladeKey, SelectedBladeIndex);
-                PlayerPrefs.Save();
-                SaveCloudData();
-                Sfx.Start();
-            }
-            else
-            {
-                SelectedBladeIndex = nextIndex;
-                Sfx.Toss();
-            }
-        }
-        else
-        {
-            SelectedBladeIndex = nextIndex;
-            PlayerPrefs.SetInt(SelectedBladeKey, SelectedBladeIndex);
-            PlayerPrefs.Save();
-            SaveCloudData();
-            Sfx.Toss();
-        }
+        if (index < 0 || index >= Blades.Length) return false;
+        if (!IsBladeUnlocked(index)) return false;
+
+        SelectedBladeIndex = index;
+        PlayerPrefs.SetInt(SelectedBladeKey, SelectedBladeIndex);
+        PlayerPrefs.Save();
+        SaveCloudData();
+        Sfx.Toss();
 
         var blade = FindAnyObjectByType<Blade>();
         if (blade != null) blade.RefreshBladeColor();
+        if (Hud != null) Hud.RefreshShopUI();
+        return true;
+    }
 
-        if (Hud != null) Hud.UpdateBladeButton();
+    public bool BuyBlade(int index)
+    {
+        if (index < 0 || index >= Blades.Length) return false;
+        if (IsBladeUnlocked(index)) return SelectBlade(index);
+
+        int cost = Blades[index].cost;
+        if (Essence < cost) return false;
+
+        Essence -= cost;
+        var set = new HashSet<string>(unlockedBlades.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries));
+        set.Add(Blades[index].id);
+        unlockedBlades = string.Join(",", set);
+        SelectedBladeIndex = index;
+
+        PlayerPrefs.SetInt(EssenceKey, Essence);
+        PlayerPrefs.SetString(UnlockedBladesKey, unlockedBlades);
+        PlayerPrefs.SetInt(SelectedBladeKey, SelectedBladeIndex);
+        PlayerPrefs.Save();
+        SaveCloudData();
+
+        Sfx.Start();
+        var blade = FindAnyObjectByType<Blade>();
+        if (blade != null) blade.RefreshBladeColor();
+        if (Hud != null) Hud.RefreshShopUI();
+        return true;
+    }
+
+    public void CycleBladeSkin()
+    {
+        int nextIndex = (SelectedBladeIndex + 1) % Blades.Length;
+        if (IsBladeUnlocked(nextIndex))
+        {
+            SelectBlade(nextIndex);
+        }
+        else if (Essence >= Blades[nextIndex].cost)
+        {
+            BuyBlade(nextIndex);
+        }
+        else
+        {
+            Sfx.Toss();
+        }
+    }
+
+    // Калиброванная степенная формула заработка софт-валюты «Эссенция» по RESEARCH_REPORT.md (раздел 4.7)
+    public static int CalculateEarnedEssence(int score, int bestCombo, int sliced)
+    {
+        if (score <= 0) return 0;
+        float baseReward = 0.35f * Mathf.Pow(score, 0.65f);
+        float comboReward = 1.2f * Mathf.Max(0, bestCombo);
+        float slicedReward = 0.05f * Mathf.Max(0, sliced);
+        return Mathf.Max(1, Mathf.RoundToInt(baseReward + comboReward + slicedReward));
     }
 
     public void SaveCloudData()
@@ -468,7 +536,8 @@ public class GameManager : MonoBehaviour
             Best = Score;
             PlayerPrefs.SetInt(BestKey, Best);
         }
-        int earnedEssence = Mathf.Max(1, (Score / 10) + (BestCombo * 2));
+        int earnedEssence = CalculateEarnedEssence(Score, BestCombo, Sliced);
+        LastEarnedEssence = earnedEssence;
         Essence += earnedEssence;
         PlayerPrefs.SetInt(EssenceKey, Essence);
 

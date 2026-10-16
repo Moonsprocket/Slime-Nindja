@@ -15,6 +15,7 @@ public class Hud : MonoBehaviour
     public static readonly Color Lilac = new Color(0.8f, 0.72f, 1f);
     public static readonly Color Rose = new Color(1f, 0.66f, 0.76f);
     public static readonly Color Lime = new Color(0.88f, 1f, 0.5f);
+    public static readonly Color Gold = new Color(1f, 0.85f, 0.3f);
     public static readonly Color Slime = new Color(0.3f, 0.86f, 0.3f);
     public static readonly Color Plum = new Color(0.13f, 0.06f, 0.22f, 0.9f);   // контур букв: тёмный, но не чёрный
     public static readonly Color Alarm = new Color(1f, 0.22f, 0.3f);
@@ -26,8 +27,15 @@ public class Hud : MonoBehaviour
     RectTransform root, popups;
     Story story;
     ComboBar combo;
-    CanvasGroup menu, game, over, pause;
-    float menuTarget, gameTarget, overTarget, pauseTarget;
+    CanvasGroup menu, game, over, pause, shop;
+    float menuTarget, gameTarget, overTarget, pauseTarget, shopTarget;
+    public bool IsShopOpen { get { return isShopOpen; } }
+    bool isShopOpen;
+    Text menuEssenceText, shopEssenceText;
+    RectTransform shopBackBtnRect;
+    RectTransform[] bladeCardRects;
+    Text[] bladeCardBtnTexts;
+    Image[] bladeCardSwatches;
     Text scoreText, deltaText, bestText, hintText, overScore, overBest, overStats, overRank, overEssence, menuPrompt, overPrompt, overEscPrompt, comboText, comboBonus;
     Text rankName, rankNext, rankBest, comboBest, comboNext, streakGoal, streakSteps, bestLine;
     StreakBar streak;
@@ -147,8 +155,16 @@ public class Hud : MonoBehaviour
         BuildRankPanel(-424f);
         BuildComboPanel(424f);
 
-        bladeBtnRect = BuildActionButton(menu.transform, bottom, new Vector2(0f, 150f), new Vector2(380f, 44f), "КЛИНОК: ЛАЗУРНЫЙ КЛИНОК", Mint);
+        bladeBtnRect = BuildActionButton(menu.transform, bottom, new Vector2(0f, 150f), new Vector2(440f, 48f), "КУЗНИЦА КЛИНКОВ", Mint);
+        Picture(bladeBtnRect, Art.Sickle, Mint, new Vector2(0f, 0.5f), center, new Vector2(26f, 0f), new Vector2(28f, 28f));
         bladeBtnText = bladeBtnRect.GetComponentInChildren<Text>();
+        bladeBtnText.fontSize = 20;
+
+        var menuEssencePlate = Picture(menu.transform, Art.Plate, new Color(0.18f, 0.12f, 0.28f, 0.95f), topRight, center, new Vector2(-130f, -46f), new Vector2(210f, 44f));
+        menuEssencePlate.type = Image.Type.Sliced;
+        Picture(menuEssencePlate.rectTransform, Art.Crystal, Color.white, new Vector2(0f, 0.5f), center, new Vector2(24f, 0f), new Vector2(24f, 24f));
+        menuEssenceText = Label(menuEssencePlate.rectTransform, titleFont, "0", 22, Mint, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(14f, 0f));
+
         menuPrompt = Label(menu.transform, titleFont, "Разрежь слайма, чтобы начать", 36, Mint, TextAnchor.MiddleCenter, bottom, new Vector2(0f, 104f));
         Label(menu.transform, font, "зажми кнопку мыши и проведи через него", 20, new Color(1f, 1f, 1f, 0.6f), TextAnchor.MiddleCenter, bottom, new Vector2(0f, 70f));
         Label(menu.transform, font, "Пробел — предыстория", 18, new Color(1f, 1f, 1f, 0.5f), TextAnchor.LowerLeft, Vector2.zero, new Vector2(26f, 18f));
@@ -190,10 +206,13 @@ public class Hud : MonoBehaviour
         menuBtnRect = BuildActionButton(pause.transform, center, new Vector2(0f, -145f), new Vector2(220f, 44f), "В МЕНЮ", Cream);
         Label(pause.transform, font, "ПКМ — продолжить   •   Esc — в меню", 16, new Color(1f, 1f, 1f, 0.45f), TextAnchor.MiddleCenter, center, new Vector2(0f, -195f));
 
+        BuildShopOverlay();
+
         // Комикс создаётся последним и поэтому лежит поверх всего интерфейса.
         story = Story.Create(root, font, titleFont);
 
         menu.alpha = game.alpha = over.alpha = pause.alpha = 0f;
+        if (shop != null) shop.alpha = 0f;
     }
 
     void OnDestroy()
@@ -252,8 +271,10 @@ public class Hud : MonoBehaviour
         for (int i = 0; i < rankSteps.Length; i++)
             rankSteps[i] = Picture(menu.transform, RankIcon(i), Color.white, top, center, new Vector2(x - edge + step * (i + 0.5f), y - 66f), new Vector2(36f, 36f));
 
-        rankBest = Label(menu.transform, font, "", 18, new Color(Cream.r, Cream.g, Cream.b, 0.75f), TextAnchor.MiddleLeft, top, new Vector2(x - edge, y - 103f));
-        Fit(rankBest, edge * 2f, 26f, 18);
+        var slicedBed = Picture(menu.transform, Art.Pill, new Color(0f, 0f, 0f, 0.65f), top, center, new Vector2(x, y - 104f), new Vector2(edge * 2f + 8f, 32f));
+        slicedBed.type = Image.Type.Sliced;
+        Picture(slicedBed.rectTransform, Art.Sickle, Mint, new Vector2(0f, 0.5f), center, new Vector2(20f, 0f), new Vector2(22f, 22f));
+        rankBest = Label(slicedBed.rectTransform, titleFont, "", 18, Color.white, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(10f, 0f));
     }
 
     // Значков столько же, сколько званий в балансе; если званий добавили, лишние берут последний значок.
@@ -287,7 +308,75 @@ public class Hud : MonoBehaviour
         streakGoal = Label(menu.transform, font, "", 19, new Color(Cream.r, Cream.g, Cream.b, 0.9f), TextAnchor.MiddleLeft, top, new Vector2(x - edge, y - 74f));
         Fit(streakGoal, edge * 2f, 26f, 19);
         streakSteps = Label(menu.transform, font, "", 18, new Color(Cream.r, Cream.g, Cream.b, 0.75f), TextAnchor.MiddleLeft, top, new Vector2(x - edge, y - 103f));
-        Fit(streakSteps, edge * 2f, 26f, 18);
+    }
+
+    void BuildShopOverlay()
+    {
+        Vector2 top = new Vector2(0.5f, 1f), center = new Vector2(0.5f, 0.5f), bottom = new Vector2(0.5f, 0f), topRight = new Vector2(1f, 1f);
+        shop = Group("Shop");
+        shop.alpha = 0f;
+        shop.blocksRaycasts = false;
+        shop.interactable = false;
+
+        var dim = Picture(shop.transform, Art.White, new Color(0.04f, 0.02f, 0.08f, 0.94f), Vector2.zero, center, Vector2.zero, Vector2.zero);
+        Stretch(dim.rectTransform);
+        dim.preserveAspect = false;
+
+        var shade = Picture(shop.transform, Art.Vignette, new Color(0f, 0f, 0f, 0.82f), Vector2.zero, center, Vector2.zero, Vector2.zero);
+        Stretch(shade.rectTransform);
+        shade.preserveAspect = false;
+
+        var glow = Picture(shop.transform, Art.Soft, new Color(0.2f, 0.9f, 0.6f, 0.15f), top, center, new Vector2(0f, -48f), new Vector2(900f, 140f));
+        glow.preserveAspect = false;
+
+        var title = Label(shop.transform, titleFont, "КУЗНИЦА КЛИНКОВ", 48, Color.white, TextAnchor.MiddleCenter, top, new Vector2(0f, -44f));
+        Paint(title, Lime, Mint);
+        Label(shop.transform, font, "Все клинки несут чисто косметический эффект и сохраняют соревновательный баланс", 18, Cream, TextAnchor.MiddleCenter, top, new Vector2(0f, -80f));
+
+        var shopBadge = Picture(shop.transform, Art.Plate, new Color(0.18f, 0.12f, 0.28f, 0.95f), topRight, center, new Vector2(-130f, -46f), new Vector2(210f, 44f));
+        shopBadge.type = Image.Type.Sliced;
+        Picture(shopBadge.rectTransform, Art.Crystal, Color.white, new Vector2(0f, 0.5f), center, new Vector2(24f, 0f), new Vector2(24f, 24f));
+        shopEssenceText = Label(shopBadge.rectTransform, titleFont, "0", 22, Mint, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(14f, 0f));
+
+        var blades = GameManager.Blades;
+        bladeCardRects = new RectTransform[blades.Length];
+        bladeCardBtnTexts = new Text[blades.Length];
+        bladeCardSwatches = new Image[blades.Length];
+
+        for (int i = 0; i < blades.Length; i++)
+        {
+            var blade = blades[i];
+            int col = i % 4;
+            int row = i / 4;
+            float cx = -420f + col * 280f;
+            float cy = 84f - row * 134f;
+
+            var cardGo = new GameObject("Card_" + blade.id, typeof(RectTransform));
+            var cardRt = (RectTransform)cardGo.transform;
+            cardRt.SetParent(shop.transform, false);
+            cardRt.anchorMin = cardRt.anchorMax = center;
+            cardRt.pivot = center;
+            cardRt.anchoredPosition = new Vector2(cx, cy);
+            cardRt.sizeDelta = new Vector2(264f, 122f);
+            bladeCardRects[i] = cardRt;
+
+            var cardBg = Picture(cardRt, Art.Plate, new Color(0.13f, 0.08f, 0.22f, 0.96f), center, center, Vector2.zero, new Vector2(264f, 122f));
+            cardBg.type = Image.Type.Sliced;
+
+            bladeCardSwatches[i] = Picture(cardRt, Art.Streak, blade.color, top, center, new Vector2(0f, -14f), new Vector2(190f, 14f));
+            bladeCardSwatches[i].preserveAspect = false;
+
+            Label(cardRt, titleFont, blade.name, 19, Color.white, TextAnchor.MiddleCenter, top, new Vector2(0f, -34f));
+
+            Color rarityColor = blade.rarity == "Легендарный" ? Gold : blade.rarity == "Эпический" ? Lilac : blade.rarity == "Редкий" ? Mint : Cream;
+            Label(cardRt, font, blade.rarity.ToUpper(), 13, rarityColor, TextAnchor.MiddleCenter, top, new Vector2(0f, -54f));
+
+            var btn = BuildActionButton(cardRt, bottom, new Vector2(0f, 20f), new Vector2(220f, 30f), "", Mint);
+            bladeCardBtnTexts[i] = btn.GetComponentInChildren<Text>();
+            bladeCardBtnTexts[i].fontSize = 17;
+        }
+
+        shopBackBtnRect = BuildActionButton(shop.transform, bottom, new Vector2(0f, 40f), new Vector2(280f, 44f), "← НАЗАД В МЕНЮ", Cream);
     }
 
     // Ползунок громкости: подпись, дорожка с заливкой, бегунок и проценты. pos — середина дорожки.
@@ -397,7 +486,7 @@ public class Hud : MonoBehaviour
         rankFill.GetComponent<Image>().color = tint;
         rankHead.rectTransform.anchoredPosition = new Vector2(rankLeft + filled - 4f, rankHead.rectTransform.anchoredPosition.y);
         for (int i = 0; i < rankSteps.Length; i++) rankSteps[i].color = i <= rank ? Color.white : Locked;
-        rankBest.text = "Разрублено слаймов: " + Tint(Number(totalSliced), Color.white);
+        rankBest.text = "ВСЕГО РАЗРУБЛЕНО: " + Tint(Number(totalSliced), Gold);
         bestLine.text = best > 0 ? "Лучший результат: " + Tint(Number(best), Color.white) : "";
 
         // Комбо: ступени идут через каждые пять слаймов в одном взмахе.
@@ -416,7 +505,7 @@ public class Hud : MonoBehaviour
         for (int i = 0; i < balance.streakGoals.Length; i++)
             steps += "   " + Tint("×" + balance.streakGoals[i], bestStreak >= balance.streakGoals[i] ? StreakBar.TierColor(i + 1) : Locked);
         streakSteps.text = steps;
-        UpdateBladeButton();
+        RefreshShopUI();
     }
 
     public void ShowPause(bool on)
@@ -429,6 +518,9 @@ public class Hud : MonoBehaviour
         menuTarget = 0f;
         gameTarget = 1f;
         overTarget = 0f;
+        isShopOpen = false;
+        shopTarget = 0f;
+        if (shop != null) shop.alpha = 0f;
         // Рестарт должен ощущаться мгновенным, поэтому старые экраны не затухают, а исчезают сразу.
         menu.alpha = 0f;
         over.alpha = 0f;
@@ -450,10 +542,11 @@ public class Hud : MonoBehaviour
                 + Number(balance.ranks[rank + 1].score - best);
         else overRank.text = "Звание: " + title;
 
-        int earned = Mathf.Max(1, (score / 10) + (bestCombo * 2));
+        int earned = GameManager.Instance != null ? GameManager.Instance.LastEarnedEssence : GameManager.CalculateEarnedEssence(score, bestCombo, sliced);
         if (overEssence != null)
         {
-            overEssence.text = "+ " + earned + " ЭССЕНЦИИ (Всего: " + (GameManager.Instance != null ? GameManager.Instance.Essence : 0) + ")";
+            int total = GameManager.Instance != null ? GameManager.Instance.Essence : 0;
+            overEssence.text = "+ " + Number(earned) + " ЭССЕНЦИИ (за счёт и комбо)  •  Всего: " + Number(total);
         }
 
         bool canRevive = GameManager.Instance != null && GameManager.Instance.CanRevive();
@@ -487,17 +580,92 @@ public class Hud : MonoBehaviour
         var gm = GameManager.Instance;
         int idx = gm.SelectedBladeIndex;
         var blade = GameManager.Blades[Mathf.Clamp(idx, 0, GameManager.Blades.Length - 1)];
-        bool unlocked = gm.IsBladeUnlocked(idx);
-        if (unlocked)
+        bladeBtnText.text = "КУЗНИЦА КЛИНКОВ  •  " + blade.name.ToUpper();
+        bladeBtnText.color = blade.color;
+    }
+
+    public void RefreshShopUI()
+    {
+        UpdateBladeButton();
+        if (GameManager.Instance == null) return;
+        var gm = GameManager.Instance;
+        if (menuEssenceText != null) menuEssenceText.text = Number(gm.Essence);
+        if (shopEssenceText != null) shopEssenceText.text = "ЭССЕНЦИЯ: " + Number(gm.Essence);
+
+        if (bladeCardBtnTexts != null)
         {
-            bladeBtnText.text = "КЛИНОК: " + blade.name.ToUpper();
-            bladeBtnText.color = blade.color;
+            for (int i = 0; i < bladeCardBtnTexts.Length; i++)
+            {
+                if (bladeCardBtnTexts[i] == null) continue;
+                var blade = GameManager.Blades[i];
+                bool unlocked = gm.IsBladeUnlocked(i);
+                bool isSelected = gm.SelectedBladeIndex == i;
+
+                if (bladeCardSwatches != null && bladeCardSwatches[i] != null)
+                    bladeCardSwatches[i].color = blade.color;
+
+                if (isSelected)
+                {
+                    bladeCardBtnTexts[i].text = "[ ВЫБРАН ]";
+                    bladeCardBtnTexts[i].color = Gold;
+                }
+                else if (unlocked)
+                {
+                    bladeCardBtnTexts[i].text = "ВЫБРАТЬ";
+                    bladeCardBtnTexts[i].color = Mint;
+                }
+                else if (gm.Essence >= blade.cost)
+                {
+                    bladeCardBtnTexts[i].text = "КУПИТЬ: " + Number(blade.cost);
+                    bladeCardBtnTexts[i].color = Lime;
+                }
+                else
+                {
+                    bladeCardBtnTexts[i].text = "КУПИТЬ: " + Number(blade.cost);
+                    bladeCardBtnTexts[i].color = Locked;
+                }
+            }
+        }
+    }
+
+    public void OpenShop(bool open = true)
+    {
+        isShopOpen = open;
+        RefreshShopUI();
+        Sfx.Toss();
+    }
+
+    public void CloseShop()
+    {
+        OpenShop(false);
+    }
+
+    void OnBladeCardClicked(int index)
+    {
+        var gm = GameManager.Instance;
+        if (gm == null) return;
+        if (gm.SelectedBladeIndex == index)
+        {
+            Sfx.Toss();
+            return;
+        }
+        if (gm.IsBladeUnlocked(index))
+        {
+            gm.SelectBlade(index);
+            Hint("Выбран клинок «" + GameManager.Blades[index].name + "»!", 1.8f);
+        }
+        else if (gm.Essence >= GameManager.Blades[index].cost)
+        {
+            gm.BuyBlade(index);
+            Hint("Куплен клинок «" + GameManager.Blades[index].name + "»!", 2.2f);
         }
         else
         {
-            bladeBtnText.text = "ОТКРЫТЬ: " + blade.name.ToUpper() + " (" + blade.cost + ")";
-            bladeBtnText.color = (gm.Essence >= blade.cost) ? Lime : Locked;
+            Sfx.Miss();
+            int needed = GameManager.Blades[index].cost - gm.Essence;
+            Hint("Не хватает " + Number(needed) + " эссенции!", 1.8f);
         }
+        RefreshShopUI();
     }
 
     // ---------- Счёт и жизни ----------
@@ -647,16 +815,48 @@ public class Hud : MonoBehaviour
         game.alpha = Mathf.MoveTowards(game.alpha, gameTarget, dt * 6f);
         over.alpha = Mathf.MoveTowards(over.alpha, overTarget, dt * 5f);
         pause.alpha = Mathf.MoveTowards(pause.alpha, pauseTarget, dt * 8f);
+        if (shop != null)
+        {
+            shopTarget = isShopOpen ? 1f : 0f;
+            shop.alpha = Mathf.MoveTowards(shop.alpha, shopTarget, dt * 7f);
+            shop.blocksRaycasts = shop.alpha > 0.5f;
+            shop.interactable = shop.alpha > 0.5f;
+        }
 
         // Ползунки громкости: в меню и на паузе.
         Vector2 pointer;
         bool pointerDown = Blade.Pointer(out pointer);
         bool pointerBegan = pointerDown && !pointerWasDown;
         pointerWasDown = pointerDown;
-        UpdateVolume(menuVolume, gm.State == GameState.Menu, pointerBegan, pointerDown, pointer);
+        UpdateVolume(menuVolume, gm.State == GameState.Menu && !isShopOpen, pointerBegan, pointerDown, pointer);
         UpdateVolume(pauseVolume, gm.Paused, pointerBegan, pointerDown, pointer);
 
-        if (pointerBegan)
+        if (isShopOpen)
+        {
+            if (Blade.EscapePressed())
+            {
+                CloseShop();
+            }
+            else if (pointerBegan)
+            {
+                if (shopBackBtnRect != null && IsInside(shopBackBtnRect, pointer))
+                {
+                    CloseShop();
+                }
+                else if (bladeCardRects != null)
+                {
+                    for (int i = 0; i < bladeCardRects.Length; i++)
+                    {
+                        if (bladeCardRects[i] != null && IsInside(bladeCardRects[i], pointer))
+                        {
+                            OnBladeCardClicked(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (pointerBegan)
         {
             if (gm.State == GameState.Playing && !gm.Paused)
             {
@@ -680,7 +880,7 @@ public class Hud : MonoBehaviour
             {
                 if (bladeBtnRect != null && IsInside(bladeBtnRect, pointer))
                 {
-                    gm.CycleBladeSkin();
+                    OpenShop(true);
                 }
             }
             else if (gm.State == GameState.GameOver)
@@ -924,6 +1124,7 @@ public class Hud : MonoBehaviour
 
     public bool IsPointerOverUI(Vector2 screenPoint)
     {
+        if (isShopOpen) return true;
         if (game != null && game.alpha > 0.5f && pauseBtnRect != null && IsInside(pauseBtnRect, screenPoint))
             return true;
         if (GameManager.Instance != null && GameManager.Instance.Paused)
