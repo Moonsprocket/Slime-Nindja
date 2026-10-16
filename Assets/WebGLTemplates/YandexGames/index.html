@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <title>{{{ PRODUCT_NAME }}}</title>
+    <!-- Yandex Games SDK -->
+    <script src="https://yandex.ru/games/sdk/v2"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #0e0717;
+        touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      #unity-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        cursor: default;
+      }
+      #loading-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle, #211235 0%, #0e0717 100%);
+        z-index: 99;
+        color: #f5f2e6;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      .loading-title {
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        color: #9efae0;
+        text-shadow: 0 0 12px rgba(158, 250, 224, 0.4);
+      }
+      .loading-subtitle {
+        font-size: 14px;
+        opacity: 0.7;
+        margin-bottom: 24px;
+        letter-spacing: 1px;
+      }
+      #loading-bar-container {
+        width: min(320px, 80vw);
+        height: 12px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      #loading-bar {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #62fae0 0%, #e0ff7f 100%);
+        border-radius: 6px;
+        transition: width 0.15s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="loading-cover">
+        <div class="loading-title">АЛХИМИЯ</div>
+        <div class="loading-subtitle">СЛАЙМОВЫЙ ПРОРЫВ</div>
+        <div id="loading-bar-container">
+          <div id="loading-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.ysdk = null;
+      window.unityInstance = null;
+
+      // Инициализация Yandex Games SDK параллельно с загрузкой ассетов
+      if (typeof YaGames !== 'undefined') {
+        YaGames.init().then(function(ysdk) {
+          window.ysdk = ysdk;
+          console.log("[YSDK] Initialized successfully");
+        }).catch(function(err) {
+          console.warn("[YSDK] Init failed or not in Yandex environment:", err);
+        });
+      } else {
+        console.log("[YSDK] YaGames script not detected (running locally or standalone)");
+      }
+
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingCover = document.querySelector("#loading-cover");
+      var loadingBar = document.querySelector("#loading-bar");
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+#if USE_WASM
+        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+        symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
+#endif
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+        productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+        productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+      };
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = function() {
+        createUnityInstance(canvas, config, function(progress) {
+          loadingBar.style.width = (100 * progress) + "%";
+        }).then(function(instance) {
+          window.unityInstance = instance;
+          loadingCover.style.display = "none";
+          if (window.ysdk && window.ysdk.features && window.ysdk.features.LoadingAPI) {
+            window.ysdk.features.LoadingAPI.ready();
+            console.log("[YSDK] LoadingAPI.ready() invoked");
+          }
+        }).catch(function(message) {
+          console.error("[Unity] Instance creation error:", message);
+          alert("Ошибка загрузки игры: " + message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>
