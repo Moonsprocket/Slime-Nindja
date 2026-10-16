@@ -52,6 +52,9 @@ public class Hud : MonoBehaviour
     float scorePunch, hintLeft, hintSpan, overShownAt, deltaLeft, comboLeft, comboSpan;
     int shownScore, deltaSum, overTargetScore;
 
+    public static Hud Instance { get; private set; }
+    RectTransform pauseBtnRect, resumeBtnRect, menuBtnRect;
+
     public static Hud Create()
     {
         return new GameObject("HUD").AddComponent<Hud>();
@@ -59,6 +62,7 @@ public class Hud : MonoBehaviour
 
     void Awake()
     {
+        Instance = this;
         font = LoadFont("Philosopher-Regular", "Trebuchet MS", "Verdana", "Arial");
         titleFont = LoadFont("Philosopher-Bold", "Palatino Linotype", "Georgia", "Times New Roman");
 
@@ -89,13 +93,14 @@ public class Hud : MonoBehaviour
         deltaText = Label(game.transform, font, "", 28, Mint, TextAnchor.UpperLeft, topLeft, new Vector2(104f, -84f));
         bestText = Label(game.transform, font, "", 22, new Color(Cream.r, Cream.g, Cream.b, 0.8f), TextAnchor.UpperLeft, topLeft, new Vector2(30f, -122f));
         Label(game.transform, font, "правая кнопка мыши — пауза", 16, new Color(1f, 1f, 1f, 0.4f), TextAnchor.LowerRight, new Vector2(1f, 0f), new Vector2(-22f, 14f));
+        pauseBtnRect = BuildPauseButton(game.transform, topRight, new Vector2(-46f, -54f));
         hearts = new Image[GameManager.MaxLives];
         heartPunch = new float[GameManager.MaxLives];
         for (int i = 0; i < hearts.Length; i++)
         {
             // Центральная опорная точка, чтобы сердце «подпрыгивало» на месте при потере жизни.
             hearts[i] = Picture(game.transform, Art.Heart, HeartOn, topRight, center,
-                new Vector2(-58f - (hearts.Length - 1 - i) * 64f, -54f), new Vector2(58f, 58f));
+                new Vector2(-110f - (hearts.Length - 1 - i) * 62f, -54f), new Vector2(58f, 58f));
         }
         streak = StreakBar.Create(game.transform, font, titleFont);
 
@@ -176,13 +181,19 @@ public class Hud : MonoBehaviour
         Paint(Label(pause.transform, titleFont, "ПАУЗА", 88, Color.white, TextAnchor.MiddleCenter, center, new Vector2(0f, 130f)), Color.white, Lilac);
         pauseVolume = BuildVolume(pause.transform, center, new Vector2(0f, 20f), 280f);
         Label(pause.transform, font, "колёсико мыши или ползунок", 17, new Color(1f, 1f, 1f, 0.5f), TextAnchor.MiddleCenter, center, new Vector2(0f, -14f));
-        Label(pause.transform, titleFont, "Правая кнопка мыши — продолжить", 30, Mint, TextAnchor.MiddleCenter, center, new Vector2(0f, -92f));
-        Label(pause.transform, font, "Esc — в меню", 18, new Color(1f, 1f, 1f, 0.5f), TextAnchor.MiddleCenter, center, new Vector2(0f, -136f));
+        resumeBtnRect = BuildActionButton(pause.transform, center, new Vector2(0f, -80f), new Vector2(260f, 52f), "ПРОДОЛЖИТЬ", Mint);
+        menuBtnRect = BuildActionButton(pause.transform, center, new Vector2(0f, -145f), new Vector2(220f, 44f), "В МЕНЮ", Cream);
+        Label(pause.transform, font, "ПКМ — продолжить   •   Esc — в меню", 16, new Color(1f, 1f, 1f, 0.45f), TextAnchor.MiddleCenter, center, new Vector2(0f, -195f));
 
         // Комикс создаётся последним и поэтому лежит поверх всего интерфейса.
         story = Story.Create(root, font, titleFont);
 
         menu.alpha = game.alpha = over.alpha = pause.alpha = 0f;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     // Плашка правила: значок и одна короткая строка. Значок стоит с запасом от рамки.
@@ -543,6 +554,28 @@ public class Hud : MonoBehaviour
         UpdateVolume(menuVolume, gm.State == GameState.Menu, pointerBegan, pointerDown, pointer);
         UpdateVolume(pauseVolume, gm.Paused, pointerBegan, pointerDown, pointer);
 
+        if (pointerBegan)
+        {
+            if (gm.State == GameState.Playing && !gm.Paused)
+            {
+                if (pauseBtnRect != null && IsInside(pauseBtnRect, pointer))
+                {
+                    gm.SetPause(true);
+                }
+            }
+            else if (gm.Paused)
+            {
+                if (resumeBtnRect != null && IsInside(resumeBtnRect, pointer))
+                {
+                    gm.SetPause(false);
+                }
+                else if (menuBtnRect != null && IsInside(menuBtnRect, pointer))
+                {
+                    gm.ExitToMenu();
+                }
+            }
+        }
+
         // Счёт: Punch Scale 1.0 → 1.2 → 1.0.
         scorePunch = Mathf.MoveTowards(scorePunch, 0f, dt * 6f);
         scoreText.transform.localScale = Vector3.one * (1f + 0.22f * scorePunch);
@@ -735,6 +768,75 @@ public class Hud : MonoBehaviour
         float thick = Mathf.Clamp(size * 0.04f, 1.5f, 4f);
         outline.effectDistance = new Vector2(thick, -thick);
         return text;
+    }
+
+    RectTransform BuildPauseButton(Transform parent, Vector2 anchor, Vector2 pos)
+    {
+        var go = new GameObject("PauseBtn", typeof(RectTransform));
+        var rt = (RectTransform)go.transform;
+        rt.SetParent(parent, false);
+        rt.anchorMin = rt.anchorMax = anchor;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.anchoredPosition = pos;
+        rt.sizeDelta = new Vector2(50f, 50f);
+
+        var bg = Picture(rt, Art.Plate, new Color(0.18f, 0.12f, 0.28f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(50f, 50f));
+        bg.type = Image.Type.Sliced;
+
+        Picture(rt, Art.Pill, Cream, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(-6f, 0f), new Vector2(5f, 20f));
+        Picture(rt, Art.Pill, Cream, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(6f, 0f), new Vector2(5f, 20f));
+
+        return rt;
+    }
+
+    RectTransform BuildActionButton(Transform parent, Vector2 anchor, Vector2 pos, Vector2 size, string text, Color textColor)
+    {
+        var go = new GameObject("Btn_" + text, typeof(RectTransform));
+        var rt = (RectTransform)go.transform;
+        rt.SetParent(parent, false);
+        rt.anchorMin = rt.anchorMax = anchor;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.anchoredPosition = pos;
+        rt.sizeDelta = size;
+
+        var bg = Picture(rt, Art.Plate, new Color(0.18f, 0.12f, 0.28f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, size);
+        bg.type = Image.Type.Sliced;
+
+        Label(rt, titleFont, text, 24, textColor, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), Vector2.zero);
+        return rt;
+    }
+
+    public bool IsPointerOverUI(Vector2 screenPoint)
+    {
+        if (game != null && game.alpha > 0.5f && pauseBtnRect != null && IsInside(pauseBtnRect, screenPoint))
+            return true;
+        if (GameManager.Instance != null && GameManager.Instance.Paused)
+        {
+            if (resumeBtnRect != null && IsInside(resumeBtnRect, screenPoint)) return true;
+            if (menuBtnRect != null && IsInside(menuBtnRect, screenPoint)) return true;
+            if (pauseVolume != null && pauseVolume.track != null)
+            {
+                Vector2 local;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(pauseVolume.track, screenPoint, null, out local);
+                if (Mathf.Abs(local.y) < 25f && Mathf.Abs(local.x) < pauseVolume.width * 0.5f + 25f) return true;
+            }
+        }
+        if (GameManager.Instance != null && GameManager.Instance.State == GameState.Menu)
+        {
+            if (menuVolume != null && menuVolume.track != null)
+            {
+                Vector2 local;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(menuVolume.track, screenPoint, null, out local);
+                if (Mathf.Abs(local.y) < 25f && Mathf.Abs(local.x) < menuVolume.width * 0.5f + 25f) return true;
+            }
+        }
+        return false;
+    }
+
+    public static bool IsInside(RectTransform rt, Vector2 screenPoint)
+    {
+        if (rt == null || !rt.gameObject.activeInHierarchy) return false;
+        return RectTransformUtility.RectangleContainsScreenPoint(rt, screenPoint, null);
     }
 }
 

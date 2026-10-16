@@ -91,8 +91,8 @@ public class Blade : MonoBehaviour
         Vector2 screen;
         bool byTouch;
         bool down = ReadPointer(out screen, out byTouch);
-        // На паузе клинок убран: ни следа, ни срезов.
-        if (GameManager.Instance.Paused) down = false;
+        // На паузе или при нажатии на элементы интерфейса клинок убран: ни следа, ни срезов.
+        if (GameManager.Instance.Paused || (Hud.Instance != null && Hud.Instance.IsPointerOverUI(screen))) down = false;
         Vector2 world = GameManager.ScreenToWorld(screen);
 
         if (down && wasDown)

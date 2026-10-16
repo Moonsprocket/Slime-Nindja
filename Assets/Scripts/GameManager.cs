@@ -214,6 +214,12 @@ public class GameManager : MonoBehaviour
         ToMenu();
     }
 
+    public void ExitToMenu()
+    {
+        SaveProgress();
+        ToMenu();
+    }
+
     void ToMenu()
     {
         ResetRun();
