@@ -156,15 +156,45 @@ public class GameManager : MonoBehaviour
 
     // ---------- Ход попытки ----------
 
-    void SetPause(bool on)
+    public void SetPause(bool on)
     {
         Paused = on;
         Hud.ShowPause(on);
-        Sfx.Music(on ? 0.4f : 1f);
+        Sfx.Pause(on);
         if (!on)
         {
             Time.timeScale = flow;
             PlayerPrefs.Save();   // громкость могла измениться
+        }
+        else
+        {
+            Time.timeScale = 0f;
+        }
+    }
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        HandleAppFocus(hasFocus);
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        HandleAppFocus(!pauseStatus);
+    }
+
+    void HandleAppFocus(bool active)
+    {
+        if (!active)
+        {
+            if (State == GameState.Playing && !Paused)
+            {
+                SetPause(true);
+            }
+            Sfx.SetMute(true);
+        }
+        else
+        {
+            Sfx.SetMute(false);
         }
     }
 
@@ -217,6 +247,7 @@ public class GameManager : MonoBehaviour
         {
             Paused = false;
             Hud.ShowPause(false);
+            Sfx.Pause(false);
         }
         Time.timeScale = flow = 1f;
         dipLeft = hitstopLeft = 0f;

@@ -32,6 +32,7 @@ public static class Sfx
     static System.Random rng;
     static Dictionary<string, float[]> baked;
     static Dictionary<string, AudioClip> clips;
+    static bool isPaused;
 
     static bool Ready { get { return swoosh != null; } }
 
@@ -411,6 +412,24 @@ public static class Sfx
         }
     }
 
+    // Глушение всего звука (при потере фокуса вкладки или показе рекламы)
+    public static void SetMute(bool mute)
+    {
+        AudioListener.pause = mute;
+    }
+
+    // Внутриигровая пауза: глушит фоновые шумы и эффекты, приглушает музыку
+    public static void Pause(bool on)
+    {
+        isPaused = on;
+        Music(on ? 0.4f : 1f);
+        if (on)
+        {
+            if (loop != null) loop.volume = 0f;
+            if (wind != null) wind.volume = 0f;
+        }
+    }
+
     // Насколько громко должна звучать музыка боя: 1 — в игре, меньше — на паузе и после поражения, 0 — в меню.
     public static void Music(float level)
     {
@@ -429,14 +448,22 @@ public static class Sfx
         if (music == null) return;
         music.volume = Mathf.MoveTowards(music.volume, MusicLevel * musicTarget, dt * 0.9f);
         if (music.isPlaying && musicTarget <= 0f && music.volume <= 0f) music.Stop();
-        loop.volume = AmbientLevel * (1f - 0.75f * Mathf.Clamp01(music.volume / MusicLevel));
+        if (isPaused)
+        {
+            if (loop != null) loop.volume = 0f;
+            if (wind != null) wind.volume = 0f;
+        }
+        else if (loop != null)
+        {
+            loop.volume = AmbientLevel * (1f - 0.75f * Mathf.Clamp01(music.volume / MusicLevel));
+        }
     }
 
     // Свист следует за клинком: нарастает мгновенно, затихает чуть медленнее. Короткий взмах — короткий звук,
     // длинный — длинный, медленное движение беззвучно.
     public static void Wind(float level, float dt)
     {
-        if (wind == null) return;
+        if (wind == null || isPaused) return;
         windLevel = Mathf.MoveTowards(windLevel, level, dt * (level > windLevel ? 16f : 7f));
         wind.volume = 0.3f * windLevel * (0.4f + 0.6f * windLevel);
         wind.pitch = Mathf.Lerp(0.7f, 1.35f, windLevel);
@@ -533,6 +560,7 @@ public static class Sfx
 
     static void Play(AudioClip clip, float volume, float pitch)
     {
+        if (isPaused) return;
         if (sources == null || sources[0] == null) return;
         var src = sources[next];
         next = (next + 1) % Voices;
