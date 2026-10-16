@@ -140,11 +140,19 @@ public class Balance : ScriptableObject
 
     [Header("Серия без промаха")]
     [Tooltip("Вехи серии: на каждой игрок получает объявление и бонус, а полоса серии переходит на следующий уровень")]
-    public int[] streakGoals = { 10, 30, 50, 100 };
+    public int[] streakGoals = { 10, 25, 50, 100, 200, 350, 500 };
     [Tooltip("После последней вехи бонус идёт за каждые столько слаймов")]
     [Min(1)] public int streakEvery = 50;
     [Tooltip("Бонус за веху: столько очков за каждый слайм серии")]
     public int streakBonus = 10;
+
+    void OnEnable()
+    {
+        if (streakGoals == null || streakGoals.Length <= 4)
+        {
+            streakGoals = new[] { 10, 25, 50, 100, 200, 350, 500 };
+        }
+    }
 
     // Уровень серии: сколько вех уже взято.
     public int StreakTier(int streak)

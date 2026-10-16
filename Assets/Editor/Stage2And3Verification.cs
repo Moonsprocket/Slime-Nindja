@@ -75,13 +75,19 @@ public static class Stage2And3Verification
             if (string.IsNullOrEmpty(name)) throw new Exception($"ComboBar.TierName({i}) is empty!");
         }
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 8; i++)
         {
             var color = StreakBar.TierColor(i);
             if (color.a <= 0f) throw new Exception($"StreakBar.TierColor({i}) has 0 alpha!");
         }
 
-        Debug.Log("[PASS] Mascots & Tiers: 5 distinct mascots (Happy, Cat-eared, Cool, Crowned, Super-Slime) and tiers verified.");
+        var balance = Balance.Current;
+        if (balance.streakGoals == null || balance.streakGoals.Length != 7)
+        {
+            throw new Exception($"streakGoals length mismatch: expected 7 goals, got {balance.streakGoals?.Length}");
+        }
+
+        Debug.Log("[PASS] Mascots & Tiers: 5 distinct mascots (Happy, Cat-eared, Cool, Crowned, Super-Slime), 8 streak tiers, and 7 streak goals verified.");
     }
 
     static void TestNonLinearComboCurve()
