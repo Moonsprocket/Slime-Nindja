@@ -538,13 +538,59 @@ public static class Fx
         return n * Random.Range(-1f, 1f) + dir * Random.Range(-0.35f, 0.9f) + Random.insideUnitCircle * 0.35f;
     }
 
+    static readonly Queue<Piece> piecePool = new Queue<Piece>();
+
+    public static void RecyclePiece(Piece piece)
+    {
+        if (piece != null) piecePool.Enqueue(piece);
+    }
+
+    public static void ClearPool()
+    {
+        while (piecePool.Count > 0)
+        {
+            var p = piecePool.Dequeue();
+            if (p != null && p.gameObject != null)
+            {
+                if (Application.isPlaying) Object.Destroy(p.gameObject);
+                else Object.DestroyImmediate(p.gameObject);
+            }
+        }
+        piecePool.Clear();
+    }
+
     static Piece NewPiece(string name, Sprite sprite, Color color, Vector2 pos, float scale, int order = OrderParticles)
     {
-        var go = NewSprite(name, sprite, color, order);
-        go.transform.position = pos;
-        go.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
-        go.transform.localScale = Vector3.one * scale;
-        return go.AddComponent<Piece>();
+        Piece piece = null;
+        while (piecePool.Count > 0)
+        {
+            var candidate = piecePool.Dequeue();
+            if (candidate != null && candidate.gameObject != null)
+            {
+                piece = candidate;
+                break;
+            }
+        }
+
+        if (piece == null)
+        {
+            var go = NewSprite(name, sprite, color, order);
+            go.transform.position = pos;
+            go.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+            go.transform.localScale = Vector3.one * scale;
+            piece = go.AddComponent<Piece>();
+        }
+        else
+        {
+            piece.gameObject.SetActive(true);
+            piece.name = name;
+            piece.transform.position = pos;
+            piece.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+            piece.transform.localScale = Vector3.one * scale;
+        }
+
+        piece.Init(sprite, color, order, scale);
+        return piece;
     }
 
     public static GameObject NewSprite(string name, Sprite sprite, Color color, int order, Transform parent = null)
@@ -630,10 +676,34 @@ public class Piece : MonoBehaviour
     Vector3 scale;
     float age, sparkTimer;
 
+    public void Init(Sprite sprite, Color col, int order, float initialScale)
+    {
+        if (sr == null) sr = GetComponent<SpriteRenderer>();
+        sr.sprite = sprite;
+        sr.color = col;
+        sr.sortingOrder = order;
+        scale = Vector3.one * initialScale;
+        age = 0f;
+        sparkTimer = 0f;
+        vel = Vector2.zero;
+        spin = 0f;
+        gravity = 0f;
+        life = 0f;
+        flip = 0f;
+        shrink = false;
+        sparkle = Color.clear;
+    }
+
+    public void Recycle()
+    {
+        gameObject.SetActive(false);
+        Fx.RecyclePiece(this);
+    }
+
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
-        scale = transform.localScale;
+        if (sr == null) sr = GetComponent<SpriteRenderer>();
+        if (scale == Vector3.zero) scale = transform.localScale;
     }
 
     void Update()
@@ -664,7 +734,7 @@ public class Piece : MonoBehaviour
             }
         }
 
-        if (k >= 1f || transform.position.y < GameManager.View.yMin - 3f * GameManager.Unit) Destroy(gameObject);
+        if (k >= 1f || transform.position.y < GameManager.View.yMin - 3f * GameManager.Unit) Recycle();
     }
 }
 

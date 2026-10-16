@@ -194,6 +194,7 @@ public class Hud : MonoBehaviour
     void OnDestroy()
     {
         if (Instance == this) Instance = null;
+        ClearPopupPool();
     }
 
     // Плашка правила: значок и одна короткая строка. Значок стоит с запасом от рамки.
@@ -511,10 +512,44 @@ public class Hud : MonoBehaviour
         comboLeft = comboSpan = seconds;
     }
 
+    static readonly Queue<HudPopup> popupPool = new Queue<HudPopup>();
+
+    public static void RecyclePopup(HudPopup popup)
+    {
+        if (popup != null) popupPool.Enqueue(popup);
+    }
+
+    public static void ClearPopupPool()
+    {
+        while (popupPool.Count > 0)
+        {
+            var p = popupPool.Dequeue();
+            if (p != null && p.gameObject != null)
+            {
+                if (Application.isPlaying) Destroy(p.gameObject);
+                else DestroyImmediate(p.gameObject);
+            }
+        }
+        popupPool.Clear();
+    }
+
     // Убирает все всплывающие надписи разом: перед крупной надписью, чтобы буквы не наслаивались друг на друга.
     public void ClearPopups()
     {
-        for (int i = popups.childCount - 1; i >= 0; i--) Destroy(popups.GetChild(i).gameObject);
+        for (int i = popups.childCount - 1; i >= 0; i--)
+        {
+            var child = popups.GetChild(i);
+            var hp = child.GetComponent<HudPopup>();
+            if (hp != null)
+            {
+                child.gameObject.SetActive(false);
+                RecyclePopup(hp);
+            }
+            else
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 
     public void Popup(Vector2 world, string text, Color color, int size, float life = 0.9f)
@@ -524,8 +559,30 @@ public class Hud : MonoBehaviour
         // Надпись не должна уезжать за край экрана.
         float nx = Mathf.Clamp((world.x - view.xMin) / view.width, 0.06f, 0.94f);
         float ny = Mathf.Clamp((world.y - view.yMin) / view.height, 0.08f, 0.9f);
-        var label = Label(popups, font, text, size, color, TextAnchor.MiddleCenter, Vector2.zero, new Vector2(nx * canvas.x, ny * canvas.y));
-        label.gameObject.AddComponent<HudPopup>().life = life;
+        Vector2 pos = new Vector2(nx * canvas.x, ny * canvas.y);
+
+        HudPopup popup = null;
+        while (popupPool.Count > 0)
+        {
+            var candidate = popupPool.Dequeue();
+            if (candidate != null && candidate.gameObject != null)
+            {
+                popup = candidate;
+                break;
+            }
+        }
+
+        if (popup == null)
+        {
+            var label = Label(popups, font, text, size, color, TextAnchor.MiddleCenter, Vector2.zero, pos);
+            popup = label.gameObject.AddComponent<HudPopup>();
+        }
+        else
+        {
+            popup.gameObject.SetActive(true);
+        }
+
+        popup.Setup(font, text, size, color, life, pos);
     }
 
     public void MissMark(float worldX)
@@ -851,12 +908,28 @@ public class HudPopup : MonoBehaviour
     Color color;
     float age;
 
+    public void Setup(Font face, string content, int size, Color col, float lifeSpan, Vector2 pos)
+    {
+        if (rt == null) rt = (RectTransform)transform;
+        if (text == null) text = GetComponent<Text>();
+        text.font = face;
+        text.fontSize = size;
+        text.text = content;
+        text.color = col;
+        color = col;
+        origin = pos;
+        rt.anchoredPosition = pos;
+        rt.localScale = Vector3.one;
+        life = lifeSpan;
+        age = 0f;
+    }
+
     void Start()
     {
-        rt = (RectTransform)transform;
-        text = GetComponent<Text>();
-        origin = rt.anchoredPosition;
-        color = text.color;
+        if (rt == null) rt = (RectTransform)transform;
+        if (text == null) text = GetComponent<Text>();
+        if (origin == Vector2.zero) origin = rt.anchoredPosition;
+        if (color == default(Color)) color = text.color;
     }
 
     void Update()
@@ -866,6 +939,10 @@ public class HudPopup : MonoBehaviour
         rt.anchoredPosition = origin + Vector2.up * (70f * (1f - (1f - k) * (1f - k)));
         rt.localScale = Vector3.one * (1f + 0.6f * Mathf.Max(0f, 1f - k * 6f));
         text.color = new Color(color.r, color.g, color.b, Mathf.Clamp01((1f - k) * 2.5f));
-        if (k >= 1f) Destroy(gameObject);
+        if (k >= 1f)
+        {
+            gameObject.SetActive(false);
+            Hud.RecyclePopup(this);
+        }
     }
 }
