@@ -104,6 +104,30 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt(StoryKey, 0) == 0) ToStory();
         else ToMenu();
+
+        if (YandexSDKManager.Instance != null)
+        {
+            YandexSDKManager.Instance.GameReady();
+            YandexSDKManager.Instance.LoadCloud(OnCloudLoaded);
+        }
+    }
+
+    void OnCloudLoaded(YandexSDKManager.CloudData cloud)
+    {
+        if (cloud == null) return;
+        bool changed = false;
+        if (cloud.bestScore > Best) { Best = cloud.bestScore; PlayerPrefs.SetInt(BestKey, Best); changed = true; }
+        if (cloud.bestCombo > BestComboEver) { BestComboEver = cloud.bestCombo; PlayerPrefs.SetInt(ComboKey, BestComboEver); changed = true; }
+        if (cloud.bestStreak > BestStreakEver) { BestStreakEver = cloud.bestStreak; PlayerPrefs.SetInt(StreakKey, BestStreakEver); changed = true; }
+        if (cloud.totalSliced > TotalSliced) { TotalSliced = cloud.totalSliced; PlayerPrefs.SetInt(SlicedKey, TotalSliced); changed = true; }
+        if (changed)
+        {
+            PlayerPrefs.Save();
+            if (State == GameState.Menu)
+            {
+                Hud.ShowMenu(Best, BestComboEver, BestStreakEver, TotalSliced);
+            }
+        }
     }
 
     void Update()
@@ -224,6 +248,7 @@ public class GameManager : MonoBehaviour
 
     void ToMenu()
     {
+        if (YandexSDKManager.Instance != null) YandexSDKManager.Instance.GameplayStop();
         ResetRun();
         spawner.Stop();
         State = GameState.Menu;
@@ -235,6 +260,7 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
+        if (YandexSDKManager.Instance != null) YandexSDKManager.Instance.GameplayStart();
         ResetRun();
         Lives = MaxLives;
         knownRank = balance.RankOf(Best);
@@ -267,6 +293,7 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
+        if (YandexSDKManager.Instance != null) YandexSDKManager.Instance.GameplayStop();
         EndChain();
         FrenzyLeft = SlowLeft = 0f;
         State = GameState.GameOver;
@@ -302,6 +329,22 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt(ComboKey, BestComboEver);
         PlayerPrefs.SetInt(SlicedKey, TotalSliced);
         PlayerPrefs.Save();
+
+        if (YandexSDKManager.Instance != null)
+        {
+            YandexSDKManager.Instance.SaveCloud(new YandexSDKManager.CloudData
+            {
+                bestScore = Best,
+                bestCombo = BestComboEver,
+                bestStreak = BestStreakEver,
+                totalSliced = TotalSliced
+            });
+
+            if (Best > 0)
+            {
+                YandexSDKManager.Instance.SubmitLeaderboardScore("leaderboard", Best);
+            }
+        }
     }
 
     // Золотой салют на экране поражения, если побит рекорд.
