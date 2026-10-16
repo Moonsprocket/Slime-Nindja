@@ -319,7 +319,7 @@ public class GameManager : MonoBehaviour
 
     // ---------- События клинка ----------
 
-    public void OnSlimeSliced(SlimeDef def, Vector2 pos)
+    public void OnSlimeSliced(SlimeDef def, Vector2 pos, float cut = 0.5f)
     {
         if (State == GameState.Menu)
         {
@@ -336,6 +336,8 @@ public class GameManager : MonoBehaviour
         }
         if (State != GameState.Playing) return;
 
+        bool bullseye = Mathf.Abs(cut) <= 0.12f;
+
         // Комбо — это слаймы, разрезанные одним движением: новый взмах начинает новую серию.
         if (chain > 0 && Blade.Stroke != chainStroke) EndChain();
         if (chain == 0) chainPoints.Clear();
@@ -346,6 +348,8 @@ public class GameManager : MonoBehaviour
         chainPos = pos;
         Sliced++;
         GrowStreak();
+        if (bullseye) GrowStreak(); // бонусный шаг серии за идеальный срез
+
         // Счётчик серии растёт прямо под клинком: видно, как взмах превращается в комбо.
         if (chain >= 2)
         {
@@ -353,8 +357,16 @@ public class GameManager : MonoBehaviour
             Fx.ChainHit(pos, chain, def.glow);
         }
 
-        int gain = def.points * Mult;
+        int gain = bullseye ? Mathf.RoundToInt(def.points * 1.5f * Mult) : def.points * Mult;
         AddScore(gain);
+
+        if (bullseye)
+        {
+            Hud.Popup(pos + Vector2.up * (2.2f * Unit), "В ЯБЛОЧКО!", new Color(1f, 0.88f, 0.25f), 38, 0.85f);
+            Fx.BladeSpark(pos, new Color(1f, 0.9f, 0.3f));
+            Fx.BladeSpark(pos, Color.white);
+        }
+
         // Очки всплывают в цвет слайма; у золотых короля и самородка — мятным, как остальные награды.
         bool golden = def.kind == Kind.King || def.kind == Kind.Nugget;
         Hud.Popup(pos, "+" + gain, golden ? Mint : Color.Lerp(def.glow, Color.white, 0.35f), def.points >= 100 ? 64 : def.points >= 30 ? 42 : 34, 0.7f);

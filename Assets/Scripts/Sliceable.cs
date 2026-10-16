@@ -262,7 +262,7 @@ public class Sliceable : MonoBehaviour
         {
             Fx.Slice(Def, pos, dir, vel, Radius, spin, cut);
         }
-        GameManager.Instance.OnSlimeSliced(Def, pos);
+        GameManager.Instance.OnSlimeSliced(Def, pos, cut);
     }
 
     // Митоз: два мини-слайма разлетаются в стороны от разреза по крутым дугам.
