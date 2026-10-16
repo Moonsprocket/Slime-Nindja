@@ -8,16 +8,16 @@ public class Hud : MonoBehaviour
 {
     // Палитра: светлый пергамент для обычных надписей, мятный «эфир» (цвет клинка) для счёта, подсказок
     // и наград. Панели меню — готовая картинка: фиолетовое поле в золотой рамке, под цвет логотипа.
-    static readonly Color Cream = new Color(0.96f, 0.95f, 0.9f);
-    static readonly Color Mint = new Color(0.62f, 0.98f, 0.88f);
+    public static readonly Color Cream = new Color(0.96f, 0.95f, 0.9f);
+    public static readonly Color Mint = new Color(0.62f, 0.98f, 0.88f);
     // У каждого блока меню свой акцент, чтобы экран не сливался в один цвет: звание — цвет самого звания,
     // заголовок его панели сиреневый, комбо и серия — розовые.
-    static readonly Color Lilac = new Color(0.8f, 0.72f, 1f);
-    static readonly Color Rose = new Color(1f, 0.66f, 0.76f);
-    static readonly Color Lime = new Color(0.88f, 1f, 0.5f);
-    static readonly Color Slime = new Color(0.3f, 0.86f, 0.3f);
-    static readonly Color Plum = new Color(0.13f, 0.06f, 0.22f, 0.9f);   // контур букв: тёмный, но не чёрный
-    static readonly Color Alarm = new Color(1f, 0.22f, 0.3f);
+    public static readonly Color Lilac = new Color(0.8f, 0.72f, 1f);
+    public static readonly Color Rose = new Color(1f, 0.66f, 0.76f);
+    public static readonly Color Lime = new Color(0.88f, 1f, 0.5f);
+    public static readonly Color Slime = new Color(0.3f, 0.86f, 0.3f);
+    public static readonly Color Plum = new Color(0.13f, 0.06f, 0.22f, 0.9f);   // контур букв: тёмный, но не чёрный
+    public static readonly Color Alarm = new Color(1f, 0.22f, 0.3f);
     static readonly Color HeartOn = Color.white;                            // сердце нарисовано цветным, подкрашивать не нужно
     static readonly Color HeartOff = new Color(0.3f, 0.28f, 0.4f, 0.55f);   // потерянная жизнь: тёмный силуэт
     static readonly Color Locked = new Color(0.36f, 0.32f, 0.5f, 0.75f);   // ещё не открытое: тёмный силуэт

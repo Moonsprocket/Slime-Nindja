@@ -35,7 +35,7 @@ public class Spawner : MonoBehaviour
     public float Elapsed { get; private set; }
 
     Balance balance;
-    float timer, kingCooldown;
+    float timer, kingCooldown, nextMicroEventTime;
     bool running;
     int nextIntro, phraseLeft;
     bool magma, blue, geode, mercury, bombs, kingMet, escortMet;
@@ -49,6 +49,7 @@ public class Spawner : MonoBehaviour
         Elapsed = 0f;
         timer = 0.7f;
         kingCooldown = 0f;
+        nextMicroEventTime = Random.Range(25f, 35f);
         nextIntro = phraseLeft = 0;
         magma = blue = geode = mercury = bombs = kingMet = escortMet = kingComing = false;
         lastPattern = Pattern.Scatter;
@@ -87,6 +88,12 @@ public class Spawner : MonoBehaviour
         }
 
         bool frenzy = GameManager.Instance.FrenzyLeft > 0f;
+        if (Elapsed >= nextMicroEventTime && !frenzy && (nextIntro >= balance.intros.Length || Elapsed >= 25f))
+        {
+            TriggerMicroEvent();
+            nextMicroEventTime = Elapsed + Random.Range(30f, 45f);
+            return;
+        }
         float over = Mathf.Max(0f, (Elapsed - balance.peak) / 60f);
         float airTime = Mathf.Max(1.15f, balance.airTime.Evaluate(Elapsed) - 0.2f * over);
 
@@ -248,6 +255,53 @@ public class Spawner : MonoBehaviour
         }
         StartCoroutine(Release(wave));
         timer = pause;
+    }
+
+    void TriggerMicroEvent()
+    {
+        float airTime = Mathf.Max(1.4f, balance.airTime.Evaluate(Elapsed));
+        var wave = new List<Shot>();
+        bool isSlimeRush = Random.value < 0.65f || !kingMet;
+
+        if (isSlimeRush)
+        {
+            if (Hud.Instance != null)
+            {
+                Hud.Instance.Shout("ПРОРЫВ СЛАЙМОВ!", "НАРЕЗКА БЕЗ БОМБ!", 2.2f, Hud.Mint);
+            }
+            int swarmCount = Random.Range(8, 11);
+            float gap = 0.22f;
+            Rect view = GameManager.View;
+            float u = GameManager.Unit;
+            float left = view.xMin + 3f * u, right = view.xMax - 3f * u;
+            for (int i = 0; i < swarmCount; i++)
+            {
+                float k = swarmCount > 1 ? i / (swarmCount - 1f) : 0.5f;
+                float x = Mathf.Lerp(left, right, (i % 2 == 0) ? k : 1f - k);
+                SlimeDef def = (i % 3 == 0 && blue) ? Art.Blue : Art.Acid;
+                wave.Add(Plan(def, x, x + Random.Range(-2f, 2f) * u, Random.Range(0.65f, 0.85f), airTime, false, i * gap));
+            }
+            timer = swarmCount * gap + 1.2f;
+        }
+        else
+        {
+            if (Hud.Instance != null)
+            {
+                Hud.Instance.Shout("ЗОЛОТОЙ ПРИЛИВ!", "СВЕРХДОБЫЧА!", 2.2f, Hud.Lime);
+            }
+            int count = 6;
+            Fan(wave, count, airTime);
+            for (int i = 0; i < wave.Count; i++)
+            {
+                var s = wave[i];
+                s.def = geode ? Art.Geode : Art.Acid;
+                wave[i] = s;
+            }
+            StartCoroutine(KingAfter(0.2f, false));
+            timer = 2.5f;
+        }
+
+        StartCoroutine(Release(wave));
     }
 
     // ---------- Рисунки волн ----------

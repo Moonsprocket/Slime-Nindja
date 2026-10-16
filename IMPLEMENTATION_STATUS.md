@@ -21,7 +21,7 @@
 | **YSDK-02** | Двухуровневые облачные сохранения | YSDK-01 | **DONE** | `feat(ysdk)` | Worker-YSDK | PASS |
 | **YSDK-03** | Лидерборд рекордов (Leaderboards API) | YSDK-02 | **DONE** | `feat(ysdk)` | Worker-YSDK | PASS |
 | **GAME-01** | Идеальный срез (Bullseye Precision Cut) | CORE-01 | **DONE** | `f882ffb` | Worker-Game | PASS |
-| **GAME-02** | Динамические микро-события волн | GAME-01 | READY | — | Worker-Game | Pending |
+| **GAME-02** | Динамические микро-события волн | GAME-01 | **DONE** | `feat(gameplay)` | Worker-Game | PASS |
 | **GAME-03** | Мета-валюта Эссенция и Кузница клинков | YSDK-02 | READY | — | Worker-Game | Pending |
 | **ADS-01** | Межстраничная реклама (Interstitial) | YSDK-01 | READY | — | Worker-Monetization | Pending |
 | **ADS-02** | Вознаграждаемая реклама (Rewarded Video) | YSDK-01, GAME-03 | READY | — | Worker-Monetization | Pending |
