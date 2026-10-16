@@ -97,6 +97,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public string ActiveBladeId
+    {
+        get
+        {
+            if (SelectedBladeIndex >= 0 && SelectedBladeIndex < Blades.Length)
+                return Blades[SelectedBladeIndex].id;
+            return Blades[0].id;
+        }
+    }
+
     public int Mult { get { return FrenzyLeft > 0f ? 2 : 1; } }
     public bool Empowered { get { return FrenzyLeft > 0f || SlowLeft > 0f; } }
 
@@ -643,14 +653,17 @@ public class GameManager : MonoBehaviour
             Fx.ChainHit(pos, chain, def.glow);
         }
 
-        int gain = bullseye ? Mathf.RoundToInt(def.points * 1.5f * Mult) : def.points * Mult;
+        int gain = bullseye ? def.points * 2 * Mult : def.points * Mult;
         AddScore(gain);
 
         if (bullseye)
         {
-            Hud.Popup(pos + Vector2.up * (2.2f * Unit), "В ЯБЛОЧКО!", new Color(1f, 0.88f, 0.25f), 38, 0.85f);
+            Essence++;
+            PlayerPrefs.SetInt(EssenceKey, Essence);
+            Hud.Popup(pos + Vector2.up * (2.2f * Unit), "В ЯБЛОЧКО! +1◆", new Color(1f, 0.88f, 0.25f), 38, 0.85f);
             Fx.BladeSpark(pos, new Color(1f, 0.9f, 0.3f));
             Fx.BladeSpark(pos, Color.white);
+            Sfx.Slice(Kind.Nugget, chain);
         }
 
         // Очки всплывают в цвет слайма; у золотых короля и самородка — мятным, как остальные награды.
@@ -735,8 +748,15 @@ public class GameManager : MonoBehaviour
         chain = 0;
         if (n < balance.comboMin || State != GameState.Playing) return;
 
-        int bonus = balance.comboBonus * n * Mult;
+        // Нелинейная прогрессия награды за комбо по ST2-02 (RESEARCH_REPORT 4.6): 15 * n^1.4 * Mult
+        int bonus = Mathf.RoundToInt(15f * Mathf.Pow(n, 1.4f) * Mult);
         AddScore(bonus);
+
+        // Кинематографический Micro Slow-Mo при высоком комбо (ST2-03)
+        if (n >= 3)
+        {
+            TimeDip(0.35f, 0.22f);
+        }
         // Комбо крупнее всех прежних может открыть новую ступень из главного меню — об этом стоит сказать сразу.
         int known = Mathf.Max(BestComboEver, BestCombo);
         if (balance.ComboStep(n) > balance.ComboStep(known)) Hud.Hint("Новая ступень комбо: ×" + balance.comboGoals[balance.ComboStep(n) - 1] + "!", 2.4f);

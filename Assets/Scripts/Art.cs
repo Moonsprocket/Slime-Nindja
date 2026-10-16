@@ -47,7 +47,7 @@ public static class Art
     public static Sprite Plate, Ribbon, Badge, Crown;   // панель меню в золотой рамке, лента под логотипом, табличка серии, корона
     public static Sprite[] Ranks;                   // значки званий
     public static Sprite[] Splats;
-    public static Material Mat, SoftMat, DotMat, StarMat;
+    public static Material Mat, SoftMat, DotMat, StarMat, ShardMat, CrystalMat, FlameMat;
 
     static readonly Dictionary<string, Texture2D> drawn = new Dictionary<string, Texture2D>(); // нарисованное кодом
     static readonly HashSet<string> fromFile = new HashSet<string>();                          // взятое из файлов
@@ -506,6 +506,46 @@ public static class Art
         return true;
     }
 
+    static Color CatSlimePixel(SlimeDef d, float x, float y)
+    {
+        // Слайм с ушками котика (Twin силуэт) и милым румянцем на щёчках
+        Color c = Jelly(d, x, y, NoCores, Happy, Twin);
+        for (int side = -1; side <= 1; side += 2)
+        {
+            float bx = x - side * 0.44f, by = y + 0.04f;
+            float q = bx * bx / 0.018f + by * by / 0.009f;
+            if (q < 1f) c = Over(c, new Color(1f, 0.45f, 0.62f), (1f - q) * 0.55f);
+        }
+        return c;
+    }
+
+    static Color CrownedMascotPixel(SlimeDef d, float x, float y)
+    {
+        Color c = Jelly(d, x, y, NoCores, Cool, Pudding);
+        Color gold;
+        return CrownPixel(x, y - 0.76f, out gold) ? gold : c;
+    }
+
+    static Color SuperSlimePixel(SlimeDef d, float x, float y)
+    {
+        float r = Mathf.Sqrt(x * x + y * y);
+        float a = Mathf.Atan2(y, x);
+        Color c = Jelly(d, x, y, OneCore, Fierce, Bud);
+
+        // Сияющая небесная аура вокруг супер-слайма
+        if (r >= 0.78f && r <= 1.38f)
+        {
+            float rays = Mathf.Pow(0.5f + 0.5f * Mathf.Cos(12f * a), 3f);
+            float haloAlpha = rays * Mathf.Clamp01(1f - Mathf.Abs(r - 1.05f) / 0.3f);
+            if (haloAlpha > 0.02f)
+            {
+                Color aura = new Color(1f, 0.88f, 0.35f, haloAlpha * 0.85f);
+                c = Over(c, aura, aura.a);
+            }
+        }
+        return c;
+    }
+
     // Чумная спора: шипастая чёрно-пурпурная сфера со злыми глазами и фитилём.
     static Color BombPixel(float x, float y)
     {
@@ -668,13 +708,20 @@ public static class Art
             return new Color(1, 1, 1, 0.85f * Mathf.Exp(-d / 5.5f) * Smooth(16f, 6f, d));
         }), new Vector2(0.5f, 0.5f), 96f, 47f);
 
-        // Слайм-талисман полоски комбо. Он серо-белый: игра красит его в цвет уровня.
+        // Слаймы-талисманы (5 уровней комбо и серий):
+        // 0: Малыш (Happy Drop)
+        // 1: Котик с ушками (Happy Twin с румянцем)
+        // 2: Адепт (Cool Pudding)
+        // 3: Король (Увенчанный золотой короной)
+        // 4: Супер-слайм (Сияющая небесная аура, звездное ядро)
         var plain = new SlimeDef { body = C(0.97f, 0.97f, 1f), deep = C(0.66f, 0.66f, 0.76f), core = Color.white, glow = Color.white };
         Mascot = new[]
         {
             Whole("Interface/Mascot1", 1f, (x, y) => Jelly(plain, x, y, NoCores, Happy, Drop)),
-            Whole("Interface/Mascot2", 1f, (x, y) => Jelly(plain, x, y, NoCores, Cool, Drop)),
-            Whole("Interface/Mascot3", 1f, (x, y) => Jelly(plain, x, y, NoCores, Fierce, Drop)),
+            Whole("Interface/Mascot2", 1f, (x, y) => CatSlimePixel(plain, x, y)),
+            Whole("Interface/Mascot3", 1f, (x, y) => Jelly(plain, x, y, NoCores, Cool, Pudding)),
+            Whole("Interface/Mascot4", TallExtent, (x, y) => CrownedMascotPixel(plain, x, y)),
+            Whole("Interface/Mascot5", TallExtent, (x, y) => SuperSlimePixel(plain, x, y)),
         };
 
         Vignette = MakeSprite("Interface/Vignette", Tex(128, 128, -1, 1, -1, 1, (x, y) =>
@@ -1346,6 +1393,9 @@ public static class Art
         SoftMat = new Material(Mat) { mainTexture = Soft.texture };
         DotMat = new Material(Mat) { mainTexture = Dot.texture };
         StarMat = new Material(Mat) { mainTexture = Star.texture };
+        ShardMat = new Material(Mat) { mainTexture = Shard.texture };
+        CrystalMat = new Material(Mat) { mainTexture = Crystal.texture };
+        FlameMat = new Material(Mat) { mainTexture = Flame.texture };
     }
 
     // ---------- Вспомогательное ----------

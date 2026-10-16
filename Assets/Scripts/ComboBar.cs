@@ -22,10 +22,10 @@ public class ComboBar : MonoBehaviour
     static readonly Tier[] Tiers =
     {
         new Tier { name = "Кипение", color = new Color(0.3f, 0.75f, 1f), face = 0, scale = 1f, drops = 12f },
-        new Tier { name = "Бурление", color = new Color(0.35f, 1f, 0.5f), face = 0, scale = 1.05f, drops = 12f, stars = 9f },
-        new Tier { name = "Резонанс", color = new Color(1f, 0.82f, 0.22f), face = 1, scale = 1.1f, drops = 8f, stars = 13f, shards = 9f },
-        new Tier { name = "Пламя", color = new Color(1f, 0.45f, 0.15f), face = 2, scale = 1.16f, stars = 13f, shards = 11f, embers = 28f },
-        new Tier { name = "Великое делание", color = new Color(0.95f, 0.4f, 1f), face = 2, scale = 1.22f, drops = 8f, stars = 22f, shards = 20f, embers = 20f },
+        new Tier { name = "Бурление", color = new Color(0.35f, 1f, 0.5f), face = 1, scale = 1.05f, drops = 12f, stars = 9f },
+        new Tier { name = "Резонанс", color = new Color(1f, 0.82f, 0.22f), face = 2, scale = 1.1f, drops = 8f, stars = 13f, shards = 9f },
+        new Tier { name = "Пламя", color = new Color(1f, 0.45f, 0.15f), face = 3, scale = 1.16f, stars = 13f, shards = 11f, embers = 28f },
+        new Tier { name = "Великое делание", color = new Color(0.95f, 0.4f, 1f), face = 4, scale = 1.22f, drops = 8f, stars = 22f, shards = 20f, embers = 20f },
     };
 
     enum Bit { Drop, Star, Shard, Ember }

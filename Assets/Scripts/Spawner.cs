@@ -49,7 +49,7 @@ public class Spawner : MonoBehaviour
         Elapsed = 0f;
         timer = 0.7f;
         kingCooldown = 0f;
-        nextMicroEventTime = Random.Range(25f, 35f);
+        nextMicroEventTime = Random.Range(45f, 60f);
         nextIntro = phraseLeft = 0;
         magma = blue = geode = mercury = bombs = kingMet = escortMet = kingComing = false;
         lastPattern = Pattern.Scatter;
@@ -88,10 +88,10 @@ public class Spawner : MonoBehaviour
         }
 
         bool frenzy = GameManager.Instance.FrenzyLeft > 0f;
-        if (Elapsed >= nextMicroEventTime && !frenzy && (nextIntro >= balance.intros.Length || Elapsed >= 25f))
+        if (Elapsed >= nextMicroEventTime && !frenzy && (nextIntro >= balance.intros.Length || Elapsed >= 45f))
         {
             TriggerMicroEvent();
-            nextMicroEventTime = Elapsed + Random.Range(30f, 45f);
+            nextMicroEventTime = Elapsed + Random.Range(35f, 50f);
             return;
         }
         float over = Mathf.Max(0f, (Elapsed - balance.peak) / 60f);
@@ -269,19 +269,29 @@ public class Spawner : MonoBehaviour
             {
                 Hud.Instance.Shout("ПРОРЫВ СЛАЙМОВ!", "НАРЕЗКА БЕЗ БОМБ!", 2.2f, Hud.Mint);
             }
-            int swarmCount = Random.Range(8, 11);
-            float gap = 0.22f;
+            int swarmCount = Random.Range(7, 9);
+            float gap = Random.Range(0.28f, 0.32f);
             Rect view = GameManager.View;
             float u = GameManager.Unit;
-            float left = view.xMin + 3f * u, right = view.xMax - 3f * u;
+            float left = view.xMin + 3.5f * u, right = view.xMax - 3.5f * u;
+            int goldIndex = swarmCount / 2; // Золотой король в середине волны для замедления и тактической передышки
             for (int i = 0; i < swarmCount; i++)
             {
                 float k = swarmCount > 1 ? i / (swarmCount - 1f) : 0.5f;
                 float x = Mathf.Lerp(left, right, (i % 2 == 0) ? k : 1f - k);
-                SlimeDef def = (i % 3 == 0 && blue) ? Art.Blue : Art.Acid;
-                wave.Add(Plan(def, x, x + Random.Range(-2f, 2f) * u, Random.Range(0.65f, 0.85f), airTime, false, i * gap));
+                SlimeDef def;
+                if (i == goldIndex)
+                {
+                    def = Art.King; // Король дарит замедление и передышку при разрубании
+                }
+                else
+                {
+                    // Исключаем делящихся синих слаймов (Art.Blue) во время раша, чтобы не перегружать экран и тач-управление
+                    def = (magma && Random.value < 0.35f) ? Art.Magma : Art.Acid;
+                }
+                wave.Add(Plan(def, x, x + Random.Range(-1.5f, 1.5f) * u, Random.Range(0.68f, 0.85f), airTime, false, i * gap));
             }
-            timer = swarmCount * gap + 1.2f;
+            timer = swarmCount * gap + 1.4f;
         }
         else
         {

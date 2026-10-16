@@ -70,15 +70,22 @@ public class Blade : MonoBehaviour
         InputSystem.settings.disableRedundantEventsMerging = mergedBefore;
     }
 
-    // Мышь сообщает о себе чаще, чем рисуются кадры. Каждое её промежуточное положение запоминается,
+    // Мышь или тачскрин сообщают о себе чаще, чем рисуются кадры. Каждое промежуточное положение запоминается,
     // и взмах проверяется по настоящей ломаной, а не по хорде от кадра до кадра.
     static void OnInputEvent(InputEventPtr e, InputDevice device)
     {
-        if (!(device is Mouse) && !(device is Pen)) return;
+        if (!(device is Mouse) && !(device is Pen) && !(device is Touchscreen)) return;
         if (InputState.currentUpdateType != InputUpdateType.Dynamic || samples.Count >= MaxSamples) return;
         if (!e.IsA<StateEvent>() && !e.IsA<DeltaStateEvent>()) return;
         Vector2 screen;
-        if (((Pointer)device).position.ReadValueFromEvent(e, out screen)) samples.Add(screen);
+        if (device is Touchscreen touch)
+        {
+            if (touch.primaryTouch.position.ReadValueFromEvent(e, out screen)) samples.Add(screen);
+        }
+        else if (device is Pointer pointer)
+        {
+            if (pointer.position.ReadValueFromEvent(e, out screen)) samples.Add(screen);
+        }
     }
 
     void Update()
@@ -97,9 +104,7 @@ public class Blade : MonoBehaviour
 
         if (down && wasDown)
         {
-            // Путь за кадр: все промежуточные точки и текущее положение. Палец сообщает о себе раз в кадр,
-            // поэтому его путь — один отрезок.
-            if (byTouch) samples.Clear();
+            // Путь за кадр: все промежуточные точки и текущее положение.
             float dist = 0f;
             Vector2 from = last;
             for (int i = 0; i <= samples.Count; i++)
@@ -108,9 +113,12 @@ public class Blade : MonoBehaviour
                 dist += (to - from).magnitude;
                 from = to;
             }
-            // Скорость сглажена: один «пустой» кадр мыши посреди взмаха не должен его прерывать.
+            // Скорость сглажена: один «пустой» кадр посреди взмаха не должен его прерывать.
+            // Для тач-устройств порог скорости сбалансирован мягче, а зона попадания шире под палец
+            float minSpeed = (byTouch ? 5.5f : 7.2f) * u;
             speed = Mathf.Max(dist / dt, speed * Mathf.Exp(-14f * dt));
-            Cutting = speed > MinCutSpeed * u;
+            Cutting = speed > minSpeed;
+            float hitPadding = (byTouch ? 0.22f : 0.14f) * u;
 
             float done = 0f;
             from = last;
@@ -121,7 +129,7 @@ public class Blade : MonoBehaviour
                 float length = step.magnitude;
                 if (length < 0.02f * u && i < samples.Count) continue; // дрожание на месте в путь не идёт
                 if (length > 0.02f * u) points.Add(new Point { pos = to, time = now });
-                if (Cutting && length > 0.0001f) Cut(from, to, step / length, HitPadding * u, done / dist, (done + length) / dist);
+                if (Cutting && length > 0.0001f) Cut(from, to, step / length, hitPadding, done / dist, (done + length) / dist);
                 done += length;
                 from = to;
             }
@@ -131,8 +139,10 @@ public class Blade : MonoBehaviour
                 sparkTimer -= dist;
                 if (sparkTimer <= 0f)
                 {
-                    sparkTimer = 1.2f * u;
-                    Fx.BladeSpark(world, golden ? Golden : Aether);
+                    sparkTimer = 0.9f * u;
+                    string bladeId = (GameManager.Instance != null) ? GameManager.Instance.ActiveBladeId : "azure";
+                    Color bladeCol = golden ? Golden : ((GameManager.Instance != null) ? GameManager.Instance.ActiveBladeColor : Aether);
+                    Fx.BladeSpark(world, bladeId, bladeCol);
                 }
             }
         }

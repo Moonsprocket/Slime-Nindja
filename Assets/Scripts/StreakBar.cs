@@ -21,10 +21,10 @@ public class StreakBar : MonoBehaviour
     static readonly Tier[] Tiers =
     {
         new Tier { name = "Серия", color = new Color(0.45f, 1f, 0.4f), face = 0, sparks = 0f },
-        new Tier { name = "Хорошая серия", color = new Color(0.3f, 0.8f, 1f), face = 0, sparks = 3f },
-        new Tier { name = "Высокая серия", color = new Color(1f, 0.82f, 0.22f), face = 1, sparks = 6f },
-        new Tier { name = "Эпическая серия", color = new Color(1f, 0.4f, 0.3f), face = 2, sparks = 10f },
-        new Tier { name = "Легендарная серия", color = new Color(0.86f, 0.45f, 1f), face = 2, sparks = 16f },
+        new Tier { name = "Хорошая серия", color = new Color(0.3f, 0.8f, 1f), face = 1, sparks = 3f },
+        new Tier { name = "Высокая серия", color = new Color(1f, 0.82f, 0.22f), face = 2, sparks = 6f },
+        new Tier { name = "Эпическая серия", color = new Color(1f, 0.4f, 0.3f), face = 3, sparks = 10f },
+        new Tier { name = "Легендарная серия", color = new Color(0.86f, 0.45f, 1f), face = 4, sparks = 16f },
     };
 
     static readonly Color Idle = new Color(0.6f, 0.6f, 0.72f);     // серии ещё нет

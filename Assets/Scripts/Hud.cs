@@ -40,7 +40,7 @@ public class Hud : MonoBehaviour
     Text rankName, rankNext, rankBest, comboBest, comboNext, streakGoal, streakSteps, bestLine;
     StreakBar streak;
     RectTransform ghost, rankFill;
-    Image[] hearts, mascots, rankSteps;
+    Image[] hearts, mascots, mascotAuras, rankSteps;
     Image comboGlow, comboRays, comboBand, titleGlow, rankIcon, rankGoal, rankHead, cat;
     VolumeBar menuVolume, pauseVolume, dragged;
     Color comboTint = Mint;
@@ -296,12 +296,18 @@ public class Hud : MonoBehaviour
 
         int[] goals = Balance.Current.comboGoals;
         mascots = new Image[goals.Length];
+        mascotAuras = new Image[goals.Length];
+        string[] stageTitles = { "Малыш", "Котик", "Адепт", "Король", "Супер" };
         float step = edge * 2f / mascots.Length;
         for (int i = 0; i < mascots.Length; i++)
         {
             float at = x - edge + step * (i + 0.5f);
-            mascots[i] = Picture(menu.transform, ComboBar.TierFace(Mathf.Min(i, ComboBar.TierCount - 1)), Color.white, top, center, new Vector2(at, y + 20f), new Vector2(48f, 48f));
-            Label(menu.transform, font, "×" + goals[i], 16, new Color(Cream.r, Cream.g, Cream.b, 0.85f), TextAnchor.MiddleCenter, top, new Vector2(at, y - 14f));
+            mascotAuras[i] = Picture(menu.transform, Art.Soft, Color.clear, top, center, new Vector2(at, y + 20f), new Vector2(58f, 58f));
+            mascotAuras[i].preserveAspect = false;
+
+            mascots[i] = Picture(menu.transform, Art.Mascot[Mathf.Min(i, Art.Mascot.Length - 1)], Color.white, top, center, new Vector2(at, y + 20f), new Vector2(46f, 46f));
+            Label(menu.transform, font, "×" + goals[i], 15, new Color(Cream.r, Cream.g, Cream.b, 0.95f), TextAnchor.MiddleCenter, top, new Vector2(at, y - 12f));
+            Label(menu.transform, font, stageTitles[i], 11, new Color(Cream.r, Cream.g, Cream.b, 0.65f), TextAnchor.MiddleCenter, top, new Vector2(at, y - 28f));
         }
         comboNext = Label(menu.transform, font, "", 20, Cream, TextAnchor.MiddleLeft, top, new Vector2(x - edge, y - 44f));
         Fit(comboNext, edge * 2f, 28f, 20);
@@ -494,7 +500,24 @@ public class Hud : MonoBehaviour
         openTiers = balance.ComboStep(bestCombo);
         comboBest.text = bestCombo > 0 ? "Комбо: ×" + bestCombo : "Комбо впереди";
         for (int i = 0; i < mascots.Length; i++)
-            mascots[i].color = i < openTiers ? ComboBar.TierColor(Mathf.Min(i, ComboBar.TierCount - 1)) : Locked;
+        {
+            bool open = i < openTiers;
+            Color tierColor = ComboBar.TierColor(Mathf.Min(i, ComboBar.TierCount - 1));
+            mascots[i].color = open ? tierColor : Locked;
+            if (mascotAuras != null && i < mascotAuras.Length)
+            {
+                if (open)
+                {
+                    mascotAuras[i].color = (i == mascots.Length - 1)
+                        ? new Color(1f, 0.85f, 0.3f, 0.45f)
+                        : new Color(tierColor.r, tierColor.g, tierColor.b, 0.25f);
+                }
+                else
+                {
+                    mascotAuras[i].color = Color.clear;
+                }
+            }
+        }
         comboNext.text = openTiers < goals.Length
             ? "Цель: комбо " + Tint("×" + goals[openTiers], Rose) + " одним взмахом"
             : Tint("Все ступени комбо взяты!", Rose);
@@ -970,6 +993,11 @@ public class Hud : MonoBehaviour
         {
             float hop = i < openTiers ? Mathf.Abs(Mathf.Sin(time * 3f + i * 0.9f)) : 0f;
             mascots[i].transform.localScale = new Vector3(1f + 0.05f * (1f - hop), 1f - 0.05f * (1f - hop), 1f) * (i < openTiers ? 1f : 0.9f);
+            if (mascotAuras != null && i < mascotAuras.Length && mascotAuras[i] != null && i < openTiers)
+            {
+                float auraScale = (i == mascots.Length - 1) ? 1.15f + 0.15f * Mathf.Sin(time * 4f) : 1f + 0.08f * pulse;
+                mascotAuras[i].transform.localScale = Vector3.one * auraScale;
+            }
         }
         menuPrompt.transform.localScale = Vector3.one * (1f + 0.05f * pulse);
         menuPrompt.color = new Color(Mint.r, Mint.g, Mint.b, 0.75f + 0.25f * pulse);

@@ -12,7 +12,7 @@ public static class Fx
 
     public static Transform Root { get; private set; }
 
-    static ParticleSystem drops, sparks, embers, smoke, stars;
+    static ParticleSystem drops, sparks, embers, smoke, stars, shards, crystals, flames;
 
     public static void Build()
     {
@@ -23,6 +23,9 @@ public static class Fx
         embers = MakeParticles("Embers", Art.SoftMat, 1.6f, shrink);
         smoke = MakeParticles("Smoke", Art.SoftMat, -0.12f, AnimationCurve.Linear(0f, 0.5f, 1f, 1.5f));
         stars = MakeParticles("Stars", Art.StarMat, 0.5f, AnimationCurve.EaseInOut(0f, 1f, 1f, 0f));
+        shards = MakeParticles("Shards", Art.ShardMat, 1.0f, shrink);
+        crystals = MakeParticles("Crystals", Art.CrystalMat, 0.3f, AnimationCurve.EaseInOut(0f, 1f, 1f, 0.1f));
+        flames = MakeParticles("Flames", Art.FlameMat, -0.8f, AnimationCurve.Linear(0f, 0.4f, 1f, 1.2f));
     }
 
     // ---------- Срезы ----------
@@ -39,6 +42,7 @@ public static class Fx
         Flash(pos, radius * 2.8f, Color.Lerp(def.glow, Color.white, 0.4f), 0.16f);
         Pulse(pos, radius * 3.2f, def.glow, 0.26f);
         Spray(def, pos, dir, radius);
+        BladeSliceBurst(pos, dir, (GameManager.Instance != null) ? GameManager.Instance.ActiveBladeId : "azure", (GameManager.Instance != null) ? GameManager.Instance.ActiveBladeColor : Gold);
 
         switch (def.kind)
         {
@@ -411,8 +415,90 @@ public static class Fx
 
     public static void BladeSpark(Vector2 pos, Color color)
     {
+        string bladeId = (GameManager.Instance != null) ? GameManager.Instance.ActiveBladeId : "azure";
+        BladeSpark(pos, bladeId, color);
+    }
+
+    public static void BladeSpark(Vector2 pos, string bladeId, Color color)
+    {
         float u = GameManager.Unit;
-        Emit(stars, pos, Random.insideUnitCircle * (1.5f * u), Random.Range(0.2f, 0.5f) * u, Random.Range(0.15f, 0.35f), color, Random.Range(0f, 360f));
+        switch (bladeId)
+        {
+            case "flame": // Огненный росчерк: летящие языки пламени и яркие угольки
+                Emit(flames, pos, (Random.insideUnitCircle * 1.8f + Vector2.up * 1.2f) * u, Random.Range(0.25f, 0.55f) * u, Random.Range(0.2f, 0.45f), color, Random.Range(0f, 360f));
+                Emit(embers, pos, Random.insideUnitCircle * (1.2f * u), Random.Range(0.12f, 0.28f) * u, Random.Range(0.3f, 0.6f), new Color(1f, 0.85f, 0.3f));
+                break;
+            case "frost": // Ледяная игла: морозные кристаллы и белые снежные осколки
+                Emit(crystals, pos, Random.insideUnitCircle * (1.4f * u), Random.Range(0.22f, 0.48f) * u, Random.Range(0.25f, 0.5f), color, Random.Range(0f, 360f));
+                Emit(shards, pos, Random.insideUnitCircle * (1.0f * u), Random.Range(0.15f, 0.3f) * u, Random.Range(0.2f, 0.4f), Color.white, Random.Range(0f, 360f));
+                break;
+            case "thunder": // Громовой коготь: резкие электрические искры и вспышки
+                Emit(stars, pos, Random.insideUnitCircle * (2.4f * u), Random.Range(0.25f, 0.6f) * u, Random.Range(0.1f, 0.25f), color, Random.Range(0f, 360f));
+                Emit(sparks, pos, Random.insideUnitCircle * (2.0f * u), Random.Range(0.2f, 0.45f) * u, Random.Range(0.08f, 0.2f), Color.white);
+                break;
+            case "emerald": // Изумрудный алхимик: неоновые капли кислоты и зеленые искры
+                Emit(drops, pos, (Random.insideUnitCircle * 1.2f - Vector2.up * 0.8f) * u, Random.Range(0.18f, 0.38f) * u, Random.Range(0.25f, 0.55f), color);
+                Emit(sparks, pos, Random.insideUnitCircle * (1.5f * u), Random.Range(0.15f, 0.35f) * u, Random.Range(0.15f, 0.35f), Color.Lerp(color, Color.white, 0.5f));
+                break;
+            case "amethyst": // Аметистовый шип: сверкающие грани кристаллов
+                Emit(crystals, pos, Random.insideUnitCircle * (1.6f * u), Random.Range(0.28f, 0.55f) * u, Random.Range(0.25f, 0.55f), color, Random.Range(0f, 360f));
+                break;
+            case "shadow": // Теневой клинок: клубящийся темный дым и призрачные угольки
+                Emit(smoke, pos, Random.insideUnitCircle * (0.8f * u), Random.Range(0.35f, 0.7f) * u, Random.Range(0.35f, 0.7f), new Color(0.25f, 0.12f, 0.35f, 0.7f));
+                Emit(embers, pos, Random.insideUnitCircle * (1.1f * u), Random.Range(0.15f, 0.28f) * u, Random.Range(0.25f, 0.5f), color);
+                break;
+            case "bone": // Костяной серп: белые острые осколки кости
+                Emit(shards, pos, Random.insideUnitCircle * (1.6f * u), Random.Range(0.2f, 0.45f) * u, Random.Range(0.2f, 0.45f), color, Random.Range(0f, 360f));
+                break;
+            case "mercury": // Ртутный стилет: зеркальные ртутные капли
+                Emit(drops, pos, Random.insideUnitCircle * (1.6f * u), Random.Range(0.22f, 0.42f) * u, Random.Range(0.25f, 0.5f), color);
+                Emit(sparks, pos, Random.insideUnitCircle * (1.0f * u), Random.Range(0.15f, 0.3f) * u, Random.Range(0.15f, 0.3f), Color.white);
+                break;
+            case "sunbeam": // Солнечный луч: яркие золотые лучи и солнечные звезды
+                Emit(stars, pos, Random.insideUnitCircle * (2.0f * u), Random.Range(0.3f, 0.65f) * u, Random.Range(0.2f, 0.4f), color, Random.Range(0f, 360f));
+                Emit(crystals, pos, Random.insideUnitCircle * (1.2f * u), Random.Range(0.2f, 0.4f) * u, Random.Range(0.2f, 0.45f), new Color(1f, 0.95f, 0.6f), Random.Range(0f, 360f));
+                break;
+            case "bloodmoon": // Кровавая луна: багровые языки пламени и алые угольки
+                Emit(flames, pos, (Random.insideUnitCircle * 1.5f + Vector2.up * 0.8f) * u, Random.Range(0.26f, 0.5f) * u, Random.Range(0.2f, 0.45f), color, Random.Range(0f, 360f));
+                Emit(embers, pos, Random.insideUnitCircle * (1.3f * u), Random.Range(0.15f, 0.3f) * u, Random.Range(0.3f, 0.6f), new Color(1f, 0.15f, 0.2f));
+                break;
+            case "magnum_opus": // Клинок Философа: радужный спектр звезд и кристаллов
+                Color rainbow = Color.HSVToRGB(Mathf.Repeat(Time.unscaledTime * 0.6f + Random.value * 0.2f, 1f), 0.75f, 1f);
+                Emit(stars, pos, Random.insideUnitCircle * (2.0f * u), Random.Range(0.28f, 0.6f) * u, Random.Range(0.25f, 0.5f), rainbow, Random.Range(0f, 360f));
+                Emit(crystals, pos, Random.insideUnitCircle * (1.4f * u), Random.Range(0.22f, 0.45f) * u, Random.Range(0.2f, 0.45f), Color.white, Random.Range(0f, 360f));
+                break;
+            default: // azure (базовый): лазурные звезды и белые искры
+                Emit(stars, pos, Random.insideUnitCircle * (1.5f * u), Random.Range(0.2f, 0.5f) * u, Random.Range(0.15f, 0.35f), color, Random.Range(0f, 360f));
+                Emit(sparks, pos, Random.insideUnitCircle * (1.2f * u), Random.Range(0.15f, 0.3f) * u, Random.Range(0.12f, 0.25f), Color.white);
+                break;
+        }
+    }
+
+    public static void BladeSliceBurst(Vector2 pos, Vector2 dir, string bladeId, Color color)
+    {
+        float u = GameManager.Unit;
+        Vector2 n = new Vector2(-dir.y, dir.x);
+        for (int i = 0; i < 4; i++)
+        {
+            Vector2 spread = (dir * Random.Range(2f, 8f) + n * Random.Range(-4f, 4f)) * u;
+            switch (bladeId)
+            {
+                case "flame":
+                case "bloodmoon":
+                    Emit(flames, pos, spread + Vector2.up * (2f * u), Random.Range(0.3f, 0.6f) * u, Random.Range(0.3f, 0.6f), color, Random.Range(0f, 360f));
+                    break;
+                case "frost":
+                case "amethyst":
+                    Emit(crystals, pos, spread, Random.Range(0.25f, 0.5f) * u, Random.Range(0.3f, 0.6f), color, Random.Range(0f, 360f));
+                    break;
+                case "bone":
+                    Emit(shards, pos, spread, Random.Range(0.2f, 0.4f) * u, Random.Range(0.25f, 0.5f), color, Random.Range(0f, 360f));
+                    break;
+                default:
+                    Emit(stars, pos, spread, Random.Range(0.25f, 0.5f) * u, Random.Range(0.2f, 0.4f), color, Random.Range(0f, 360f));
+                    break;
+            }
+        }
     }
 
     // Пылинки и угольки, медленно плывущие в воздухе лаборатории.

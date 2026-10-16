@@ -84,7 +84,7 @@ public static class Sfx
         // Свои файлы подхватываются при каждом запуске, поэтому замена звука не требует перезапуска редактора.
         Publish();
 
-        loop.clip = ambient;
+        loop.clip = Resources.Load<AudioClip>("Music/Menu") ?? ambient;
         loop.Play();
         wind.clip = swoosh;
         wind.Play();
@@ -360,44 +360,50 @@ public static class Sfx
             return v;
         });
 
-        // Фон лаборатории: котёл только начинает закипать. Редкие мягкие «бульки» разной высоты и тихое магическое
-        // гудение — высокий «стеклянный» аккорд, который то проступает, то тает. Баса, ровного гула и шипения нет:
-        // шипящая подложка, плавно нараставшая и спадавшая, звучала как морской прибой, и её убрали.
-        // Бульки не пересекают стык петли.
+        // Атмосфера меню и лаборатории: благородный кристальный гармонический эмбиент с мягкими переливами колокольчиков.
+        // Раздражающее бульканье котла полностью удалено, заменено на умиротворяющую пентатоническую тему.
         const float len = 12f;
-        Bake("Ambient", len + WindSeam, t =>
-        {
-            White();    // случайные числа расходуются как раньше: поэтому бульки остались на своих прежних местах
-            return 0f;
-        }, true);
+        Bake("Ambient", len + WindSeam, t => 0f, true);
         float[] bed = Seamless(baked["Ambient"], (int)(WindSeam * Rate));
         baked["Ambient"] = bed;
-        // Гудение: в петле укладывается целое число волн каждой ноты, поэтому шва не слышно.
-        float[] hum = { 392f, 587.25f, 784f };
+
+        // Теплый струнный/стеклянный аккорд лаборатории (G-dur: G3, D4, G4, B4, D5) с фазовым хорусом
+        float[] padFreqs = { 196.00f, 293.66f, 392.00f, 493.88f, 587.25f };
         for (int s = 0; s < bed.Length; s++)
         {
-            float t = s / (float)Rate, swell = 0.5f - 0.5f * Mathf.Cos(Tau * t / 6f);
+            float t = s / (float)Rate;
+            float swell = 0.5f - 0.5f * Mathf.Cos(Tau * t / 6f);
             float v = 0f;
-            for (int i = 0; i < hum.Length; i++) v += (Mathf.Sin(Tau * hum[i] * t) + Mathf.Sin(Tau * (hum[i] + 0.25f) * t)) / (1f + i);
-            bed[s] += v * swell * swell * 0.006f;
-        }
-        float at = 0.5f;
-        while (at < len - 0.7f)
-        {
-            // Бульк: невысокий тон, который мягко всплывает вверх. Иногда пузыри идут парой.
-            int burst = rng.NextDouble() < 0.3 ? 2 : 1;
-            for (int b = 0; b < burst; b++)
+            for (int i = 0; i < padFreqs.Length; i++)
             {
-                float hz = 180f + (float)rng.NextDouble() * 240f, span = 0.12f + (float)rng.NextDouble() * 0.12f;
-                float loud = 0.07f + (float)rng.NextDouble() * 0.06f;
-                int from = (int)((at + b * 0.19f) * Rate), count = (int)(span * Rate);
-                for (int s = 0; s < count && from + s < bed.Length; s++)
-                {
-                    float local = s / (float)Rate, k = local / span, env = Mathf.Sin(Mathf.PI * k);
-                    bed[from + s] += Mathf.Sin(Tau * hz * (1f + 0.45f * k) * local) * env * env * loud;
-                }
+                float f = padFreqs[i];
+                v += (Mathf.Sin(Tau * f * t) + Mathf.Sin(Tau * (f + 0.18f) * t)) * (0.004f / (1f + 0.35f * i));
             }
-            at += 0.7f + (float)rng.NextDouble() * 1.3f;
+            bed[s] += v * swell;
+        }
+
+        // Мягкие кристальные колокольчики (G-major пентатоника: D5, B4, G5, E5, D5)
+        float[] chimeTimes = { 1.0f, 3.2f, 5.8f, 8.0f, 10.2f };
+        float[] chimePitches = { 587.33f, 493.88f, 783.99f, 659.25f, 587.33f };
+
+        for (int i = 0; i < chimeTimes.Length; i++)
+        {
+            float startTime = chimeTimes[i];
+            float pitch = chimePitches[i];
+            int from = (int)(startTime * Rate);
+            int count = (int)(1.6f * Rate);
+
+            for (int s = 0; s < count && from + s < bed.Length; s++)
+            {
+                float local = s / (float)Rate;
+                float attack = Mathf.Clamp01(local / 0.015f);
+                float decay = Mathf.Exp(-local * 2.8f);
+                float env = attack * decay;
+
+                // Основной тон + тонкий хрустальный обертон
+                float sample = Mathf.Sin(Tau * pitch * local) + 0.28f * Mathf.Sin(Tau * pitch * 2.01f * local);
+                bed[from + s] += sample * env * 0.024f;
+            }
         }
     }
 
